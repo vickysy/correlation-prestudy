@@ -110,14 +110,30 @@ const outPath = arg("--out") || join(process.cwd(), "index.html");
 writeFileSync(outPath, out);
 console.log("✅ 学习台已构建:", outPath, "(", (out.length / 1024).toFixed(1), "KB ) 孩子:", site.name, site.grade || "");
 
-// ---------- 同步数学探险 app ----------
-// 工作台里「今日旅程·数学」和数学知识卡都会打开 math-adventure/index.html（输出目录下的同名子文件夹）
-const maSrc = join(SKILL_ROOT, "assets", "math-adventure", "index.html");
-if (existsSync(maSrc)) {
-  const maDir = join(dirname(outPath), "math-adventure");
-  mkdirSync(maDir, { recursive: true });
+// ---------- 铺设数学探险 app（按年级选，缺则占位）----------
+// 工作台里「今日旅程·数学」和数学知识卡都会打开 math-adventure/index.html（输出目录下的子文件夹）
+// 每个年级一份自包含 HTML：assets/math-adventure/grades/<3|4|5|6>.html（图片已内嵌，无外链）
+const gradeChar = (String(site.grade || "").match(/[3-6三四五六]/) || [])[0] || "";
+const gN = ({ "三": "3", "四": "4", "五": "5", "六": "6" })[gradeChar] || gradeChar;
+const maDir = join(dirname(outPath), "math-adventure");
+mkdirSync(maDir, { recursive: true });
+const maSrc = join(SKILL_ROOT, "assets", "math-adventure", "grades", gN + ".html");
+if (gN && existsSync(maSrc)) {
   copyFileSync(maSrc, join(maDir, "index.html"));
-  console.log("✅ 数学探险已铺好:", join(maDir, "index.html"));
+  console.log("✅ 数学探险(" + gN + "年级)已铺好:", join(maDir, "index.html"));
 } else {
-  console.warn("⚠️ 未找到 math-adventure 资产，数学探险链接将失效");
+  // 该年级内容尚未补充：放一个占位页，避免死链
+  const ph = '<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8">'
+    + '<meta name="viewport" content="width=device-width,initial-scale=1">'
+    + '<title>数学探险地图 · 整理中</title>'
+    + '<style>body{margin:0;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;'
+    + 'font-family:"Noto Sans SC","PingFang SC","Microsoft YaHei",sans-serif;background:#F6F1E7;color:#26332E;text-align:center;padding:24px}'
+    + 'h1{font-family:"Songti SC","SimSun",serif;font-size:26px;margin:0}'
+    + 'p{color:#5C4E3D;line-height:1.85;max-width:22em;margin:0}'
+    + 'a{color:#B5492E;text-decoration:none;border:1.5px solid rgba(181,73,46,.35);padding:9px 22px;border-radius:99px}</style></head>'
+    + '<body><h1>数学探险地图 · 整理中</h1>'
+    + '<p>' + (site.name || "这个孩子") + '（' + (site.grade || "该年级") + '）的数学史探险内容正在整理中，敬请期待。目前四年级已就绪。</p>'
+    + '<a href="#" onclick="window.close();return false;">← 回工作台</a></body></html>';
+  writeFileSync(join(maDir, "index.html"), ph);
+  console.warn("⚠️ 年级(" + (site.grade || "?") + ")数学探险内容暂缺，已放「整理中」占位页");
 }
