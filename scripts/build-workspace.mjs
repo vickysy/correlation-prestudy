@@ -27,7 +27,7 @@
  *     "quote": "一句孩子的话（可空）"
  *   }
  */
-import { readFileSync, writeFileSync, existsSync } from "node:fs";
+import { readFileSync, writeFileSync, existsSync, mkdirSync, copyFileSync } from "node:fs";
 import { join, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -109,3 +109,15 @@ for (const [marker, label] of [
 const outPath = arg("--out") || join(process.cwd(), "index.html");
 writeFileSync(outPath, out);
 console.log("✅ 学习台已构建:", outPath, "(", (out.length / 1024).toFixed(1), "KB ) 孩子:", site.name, site.grade || "");
+
+// ---------- 同步数学探险 app ----------
+// 工作台里「今日旅程·数学」和数学知识卡都会打开 math-adventure/index.html（输出目录下的同名子文件夹）
+const maSrc = join(SKILL_ROOT, "assets", "math-adventure", "index.html");
+if (existsSync(maSrc)) {
+  const maDir = join(dirname(outPath), "math-adventure");
+  mkdirSync(maDir, { recursive: true });
+  copyFileSync(maSrc, join(maDir, "index.html"));
+  console.log("✅ 数学探险已铺好:", join(maDir, "index.html"));
+} else {
+  console.warn("⚠️ 未找到 math-adventure 资产，数学探险链接将失效");
+}

@@ -1,0 +1,1030 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>四上数学 · 课前探险地图</title>
+<!-- 字体走系统：Songti/SimSun + PingFang/YaHei -->
+<style>
+/* ===== 设计令牌 ===== */
+:root{
+  --paper:#F6F1E7;
+  --parchment:#EFE5D0;
+  --ink:#26332E;
+  --teal:#1F3A3A;
+  --amber:#D97B29;
+  --rust:#B5492E;
+  --moss:#5A7A5A;
+  --mist:#7A8E9E;
+  --line:rgba(38,51,46,.14);
+  --serif:'Noto Serif SC', 'Songti SC', 'SimSun', serif;
+  --sans:'Noto Sans SC', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  font-family:var(--sans);
+  color:var(--ink);
+  background:
+    radial-gradient(circle at 12% 8%, rgba(217,123,41,.07), transparent 32%),
+    radial-gradient(circle at 88% 20%, rgba(90,122,90,.08), transparent 30%),
+    var(--paper);
+  line-height:1.7;
+  -webkit-font-smoothing:antialiased;
+}
+button{font-family:inherit;cursor:pointer;border:none;background:none}
+a{color:inherit;text-decoration:none}
+img{display:block;max-width:100%}
+
+.wrap{max-width:1080px;margin:0 auto;padding:0 22px}
+
+/* ===== 顶栏 ===== */
+.topbar{
+  position:sticky;top:0;z-index:50;
+  backdrop-filter:blur(8px);
+  background:rgba(246,241,231,.86);
+  border-bottom:1px solid var(--line);
+}
+.topbar-inner{display:flex;align-items:center;gap:14px;padding:12px 22px;max-width:1080px;margin:0 auto}
+.home-link{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;font-weight:600;color:var(--teal);border:1.5px solid var(--line);background:#FFFDF6;padding:6px 13px;border-radius:999px;transition:.15s;white-space:nowrap}
+.home-link:hover{border-color:var(--amber);color:var(--amber)}
+.brand{display:flex;align-items:center;gap:10px;font-family:var(--serif);font-weight:700;font-size:17px;letter-spacing:.5px}
+.brand svg{width:26px;height:26px;color:var(--amber)}
+.topbar .progress-mini{margin-left:auto;display:flex;align-items:center;gap:8px;font-size:13px;color:var(--teal)}
+.progress-track{width:120px;height:7px;border-radius:99px;background:rgba(31,58,58,.14);overflow:hidden}
+.progress-fill{height:100%;background:var(--amber);border-radius:99px;transition:width .5s ease}
+.progress-mini b{font-family:var(--serif);font-size:15px}
+
+/* ===== Hero ===== */
+.hero{position:relative;overflow:hidden;border-bottom:1px solid var(--line)}
+.hero-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.hero-scrim{position:absolute;inset:0;background:linear-gradient(180deg,rgba(21,33,30,.42),rgba(21,33,30,.66))}
+.hero-body{position:relative;max-width:1080px;margin:0 auto;padding:74px 22px 60px;color:#FBF7EE}
+.hero .kicker{
+  display:inline-flex;align-items:center;gap:8px;font-size:13px;letter-spacing:3px;
+  color:#F3DFC0;text-transform:uppercase;border:1px solid rgba(243,223,192,.45);
+  padding:6px 14px;border-radius:99px;margin-bottom:20px;backdrop-filter:blur(2px)
+}
+.hero h1{font-family:var(--serif);font-weight:900;font-size:clamp(34px,6vw,60px);line-height:1.15;letter-spacing:1px}
+.hero h1 em{font-style:normal;color:var(--amber)}
+.hero .lead{margin-top:16px;max-width:640px;font-size:clamp(15px,2vw,18px);font-weight:300;color:#EFE7D8}
+.hero .meta-row{display:flex;flex-wrap:wrap;gap:14px;margin-top:26px}
+.chip{
+  display:inline-flex;align-items:center;gap:8px;font-size:13px;
+  background:rgba(246,241,231,.14);border:1px solid rgba(246,241,231,.32);
+  padding:8px 15px;border-radius:99px;color:#F3ECDD;backdrop-filter:blur(3px)
+}
+.chip b{color:#F6C48F}
+
+/* ===== 玩法说明 ===== */
+.howto{padding:46px 0 8px}
+.howto h2,.sec-title{font-family:var(--serif);font-weight:700;font-size:24px;letter-spacing:.5px;display:flex;align-items:center;gap:12px}
+.sec-title::before{content:"";width:6px;height:24px;background:var(--amber);border-radius:3px}
+.howto-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:16px;margin-top:22px}
+.howto-card{
+  background:var(--parchment);border:1px solid var(--line);border-radius:16px;
+  padding:22px 20px;position:relative
+}
+.howto-card .step-no{
+  font-family:var(--serif);font-weight:900;font-size:30px;color:var(--amber);line-height:1
+}
+.howto-card h3{margin-top:10px;font-family:var(--serif);font-size:17px}
+.howto-card p{margin-top:6px;font-size:14px;color:rgba(38,51,46,.78)}
+
+/* ===== 探险路径 ===== */
+.journey{padding:42px 0 20px}
+.path{position:relative;margin-top:30px;padding:6px 0}
+.path-line{
+  position:absolute;left:50%;top:0;bottom:0;width:3px;transform:translateX(-50%);
+  background-image:linear-gradient(to bottom,var(--amber) 60%,transparent 60%);
+  background-size:100% 26px;background-repeat:repeat-y;opacity:.55
+}
+.station{
+  position:relative;width:100%;max-width:640px;margin:0 auto 26px;
+  background:#FDFAF2;border:1px solid var(--line);border-radius:18px;overflow:hidden;
+  box-shadow:0 6px 22px rgba(31,58,58,.07);transition:transform .25s ease,box-shadow .25s ease;
+}
+.station:hover{transform:translateY(-3px);box-shadow:0 12px 30px rgba(31,58,58,.14)}
+.station .cover{position:relative;height:170px;overflow:hidden}
+.station .cover img{width:100%;height:100%;object-fit:cover;transition:transform .6s ease}
+.station:hover .cover img{transform:scale(1.05)}
+.station .no-badge{
+  position:absolute;top:14px;left:14px;z-index:2;
+  width:46px;height:46px;border-radius:50%;display:grid;place-items:center;
+  background:var(--teal);color:#F3DFC0;font-family:var(--serif);font-weight:700;font-size:19px;
+  border:2px solid rgba(243,223,192,.55);box-shadow:0 4px 10px rgba(0,0,0,.25)
+}
+.station .cover::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 52%,rgba(21,33,30,.5))}
+.station .time-tag{
+  position:absolute;right:12px;top:12px;z-index:2;font-size:12px;color:#F3E7D2;
+  background:rgba(21,33,30,.55);padding:4px 11px;border-radius:99px;border:1px solid rgba(243,231,210,.4)
+}
+.station .body{padding:18px 20px 20px}
+.station h3{font-family:var(--serif);font-size:21px;font-weight:700}
+.station .hook{margin-top:6px;font-size:14px;color:rgba(38,51,46,.82);font-weight:300}
+.station .foot{display:flex;align-items:center;justify-content:space-between;margin-top:14px}
+.station .go{display:inline-flex;align-items:center;gap:7px;font-size:14px;font-weight:500;color:var(--amber)}
+.station .go svg{width:15px;height:15px;transition:transform .2s}
+.station:hover .go svg{transform:translateX(3px)}
+.stamp{
+  position:absolute;right:14px;top:56px;z-index:3;transform:rotate(-14deg);
+  width:74px;height:74px;border-radius:50%;display:grid;place-items:center;
+  color:var(--rust);border:3px solid var(--rust);opacity:.9;
+  background:rgba(246,241,231,.55);backdrop-filter:blur(2px);
+  font-family:var(--serif);font-weight:900;font-size:20px;letter-spacing:2px
+}
+.stamp small{display:block;font-size:10px;font-weight:700;letter-spacing:1px;text-align:center;line-height:1.2}
+.stamp-done{animation:stampIn .5s cubic-bezier(.2,1.4,.4,1) both}
+@keyframes stampIn{0%{transform:rotate(-14deg) scale(2.2);opacity:0}100%{transform:rotate(-14deg) scale(1);opacity:.9}}
+
+/* ===== 单元详情 ===== */
+.unit-hero{position:relative;overflow:hidden;border-bottom:1px solid var(--line)}
+.unit-hero img{width:100%;height:300px;object-fit:cover;object-position:center}
+.unit-hero .scrim{position:absolute;inset:0;background:linear-gradient(180deg,rgba(21,33,30,.15),rgba(21,33,30,.72))}
+.unit-hero .cap{position:absolute;left:0;right:0;bottom:0;max-width:1080px;margin:0 auto;padding:26px 22px;color:#FBF7EE}
+.unit-hero .back{
+  position:absolute;top:16px;left:18px;z-index:5;display:inline-flex;align-items:center;gap:7px;
+  color:#F3E7D2;font-size:14px;background:rgba(21,33,30,.5);padding:8px 15px;border-radius:99px;border:1px solid rgba(243,231,210,.35)
+}
+.unit-hero .back svg{width:15px;height:15px}
+.unit-hero h1{font-family:var(--serif);font-weight:900;font-size:clamp(26px,4.5vw,40px)}
+.unit-hero .sub{margin-top:6px;font-weight:300;color:#EFE7D8;font-size:15px}
+.unit-hero .meta-line{margin-top:12px;display:flex;flex-wrap:wrap;gap:10px}
+
+/* 探险步骤 */
+.stage-wrap{max-width:720px;margin:0 auto;padding:34px 22px 80px}
+.acts-progress{display:flex;align-items:center;gap:8px;margin-bottom:26px}
+.acts-progress .dot{width:10px;height:10px;border-radius:50%;background:rgba(31,58,58,.18);transition:background .3s}
+.acts-progress .dot.on{background:var(--amber)}
+.acts-progress .bar{flex:1;height:2px;background:rgba(31,58,58,.14);position:relative}
+.acts-progress .bar i{position:absolute;left:0;top:0;height:100%;background:var(--amber);width:0;transition:width .4s}
+
+.act{animation:actIn .45s ease both}
+@keyframes actIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+.act .act-label{display:inline-flex;align-items:center;gap:8px;font-size:13px;letter-spacing:2px;color:var(--amber);font-weight:500;margin-bottom:8px}
+.act .act-label svg{width:16px;height:16px}
+
+.hook-box{
+  background:var(--teal);color:#F3ECDD;border-radius:18px;padding:30px 26px;position:relative;overflow:hidden
+}
+.hook-box::before{content:"？”";position:absolute;right:-14px;top:-34px;font-family:var(--serif);font-size:130px;color:rgba(243,223,192,.14);line-height:1}
+.hook-box h2{font-family:var(--serif);font-weight:700;font-size:clamp(21px,3.4vw,28px);line-height:1.5;position:relative}
+.hook-box .hint{margin-top:14px;font-size:14px;color:#D8CFB8;position:relative}
+
+.story-block{margin-top:6px}
+.story-sec{
+  background:#FDFAF2;border:1px solid var(--line);border-radius:16px;padding:20px 22px;margin-bottom:16px
+}
+.story-sec h3{font-family:var(--serif);font-size:18px;font-weight:700;display:flex;align-items:center;gap:10px}
+.story-sec h3 .tag{font-size:11px;font-family:var(--sans);color:var(--rust);border:1px solid rgba(181,73,46,.4);padding:2px 9px;border-radius:99px;letter-spacing:1px}
+.story-sec p{margin-top:10px;font-size:15px;color:rgba(38,51,46,.86);font-weight:300}
+.story-sec p b{font-weight:700;color:var(--teal)}
+.fact-row{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+.fact{font-size:12px;color:var(--moss);border:1px solid rgba(90,122,90,.4);padding:3px 10px;border-radius:99px}
+
+.quiz-box{background:var(--parchment);border:1px solid var(--line);border-radius:18px;padding:24px 22px}
+.quiz-box .q{font-family:var(--serif);font-weight:700;font-size:17px;line-height:1.6}
+.quiz-box .q-sub{font-size:13px;color:rgba(38,51,46,.6);margin-top:4px}
+.quiz-opts{margin-top:16px;display:grid;gap:11px}
+.quiz-opt{
+  text-align:left;display:flex;gap:13px;align-items:flex-start;padding:14px 16px;border-radius:13px;
+  background:#FDFAF2;border:1.5px solid rgba(31,58,58,.18);font-size:15px;transition:border-color .2s,background .2s
+}
+.quiz-opt:hover{border-color:var(--teal)}
+.quiz-opt .k{flex:0 0 26px;height:26px;border-radius:50%;border:1.5px solid rgba(31,58,58,.4);display:grid;place-items:center;font-size:13px;font-weight:700}
+.quiz-opt.correct{background:rgba(90,122,90,.14);border-color:var(--moss)}
+.quiz-opt.correct .k{background:var(--moss);color:#fff;border-color:var(--moss)}
+.quiz-opt.wrong{background:rgba(181,73,46,.08);border-color:var(--rust)}
+.quiz-opt.wrong .k{background:var(--rust);color:#fff;border-color:var(--rust)}
+.quiz-opt.dim{opacity:.5}
+.quiz-why{margin-top:14px;font-size:14px;color:rgba(38,51,46,.8);border-left:3px solid var(--amber);padding:4px 0 4px 14px;display:none}
+.quiz-why.show{display:block;animation:actIn .35s ease}
+
+.goclass{
+  background:linear-gradient(160deg,rgba(90,122,90,.14),rgba(31,58,58,.1));
+  border:1px dashed var(--moss);border-radius:18px;padding:24px 22px
+}
+.goclass h3{font-family:var(--serif);font-weight:700;font-size:18px;display:flex;align-items:center;gap:9px}
+.goclass p{margin-top:10px;font-size:15px}
+.parent-note{margin-top:14px;font-size:13.5px;color:rgba(38,51,46,.7);background:#FDFAF2;border-radius:12px;padding:12px 16px}
+.parent-note b{color:var(--rust)}
+
+.act-nav{display:flex;align-items:center;justify-content:space-between;margin-top:26px;gap:14px}
+.btn-primary{
+  display:inline-flex;align-items:center;gap:10px;background:var(--amber);color:#fff;
+  font-size:16px;font-weight:600;padding:14px 26px;border-radius:99px;box-shadow:0 8px 20px rgba(217,123,41,.32);
+  transition:transform .2s,box-shadow .2s
+}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 12px 26px rgba(217,123,41,.4)}
+.btn-primary svg{width:17px;height:17px}
+.btn-ghost{font-size:14px;color:rgba(38,51,46,.6);padding:10px 8px}
+.btn-stamp{
+  display:inline-flex;align-items:center;gap:10px;background:var(--teal);color:#F3DFC0;
+  font-size:16px;font-weight:600;padding:14px 26px;border-radius:99px;box-shadow:0 8px 20px rgba(31,58,58,.3)
+}
+.btn-stamp svg{width:18px;height:18px}
+.stamp-big{display:none;position:fixed;left:50%;top:46%;transform:translate(-50%,-50%);z-index:90;pointer-events:none}
+.stamp-big.show{display:grid;place-items:center;width:190px;height:190px;border-radius:50%;border:6px solid var(--rust);color:var(--rust);background:rgba(246,241,231,.9);font-family:var(--serif);font-weight:900;font-size:46px;letter-spacing:4px;box-shadow:0 20px 60px rgba(0,0,0,.25);animation:stampPop .7s cubic-bezier(.2,1.4,.4,1) both}
+.stamp-big small{display:block;font-size:15px;font-weight:700;letter-spacing:3px;text-align:center}
+@keyframes stampPop{0%{transform:translate(-50%,-50%) scale(3);opacity:0}60%{transform:translate(-50%,-50%) scale(.94);opacity:1}100%{transform:translate(-50%,-50%) scale(1);opacity:1}}
+.done-banner{
+  text-align:center;background:linear-gradient(140deg,var(--teal),#2A4B47);color:#F3DFC0;
+  border-radius:18px;padding:28px 22px;margin-top:26px
+}
+.done-banner h3{font-family:var(--serif);font-size:20px}
+.done-banner p{margin-top:6px;font-size:14px;color:#D8CFB8}
+
+/* ===== 时间线 ===== */
+.tl{padding:40px 0 70px}
+.tl-head{text-align:center;margin-bottom:8px}
+.tl-head h2{font-family:var(--serif);font-weight:900;font-size:clamp(26px,4vw,38px)}
+.tl-head p{color:rgba(38,51,46,.66);font-weight:300;margin-top:6px}
+.tl-line{position:relative;max-width:760px;margin:34px auto 0;padding-left:26px}
+.tl-line::before{content:"";position:absolute;left:7px;top:4px;bottom:4px;width:2px;background:var(--line)}
+.tl-item{position:relative;margin-bottom:14px}
+.tl-item::before{content:"";position:absolute;left:-26px;top:9px;width:14px;height:14px;border-radius:50%;background:var(--paper);border:3px solid var(--amber)}
+.tl-item .y{font-family:var(--serif);font-weight:700;color:var(--amber);font-size:15px}
+.tl-item .t{font-size:15px}
+.tl-item .u{margin-left:8px;font-size:11.5px;color:var(--moss);border:1px solid rgba(90,122,90,.4);padding:1px 8px;border-radius:99px;cursor:pointer}
+.tl-item .u:hover{background:rgba(90,122,90,.12)}
+.tl-legend{margin-top:24px;font-size:12.5px;color:rgba(38,51,46,.55);text-align:center}
+
+/* ===== 给家长 ===== */
+.parents{padding:36px 0 60px}
+.parents-card{background:var(--teal);color:#EFE7D8;border-radius:20px;padding:30px 28px;position:relative;overflow:hidden}
+.parents-card h2{font-family:var(--serif);font-weight:700;font-size:22px}
+.parents-card ul{margin-top:14px;display:grid;gap:10px;font-size:14.5px;font-weight:300;list-style:none}
+.parents-card li{display:flex;gap:11px}
+.parents-card li::before{content:"";flex:0 0 7px;height:7px;border-radius:50%;background:var(--amber);margin-top:9px}
+
+.foot-note{text-align:center;padding:24px 0 40px;font-size:12.5px;color:rgba(38,51,46,.55);font-weight:300}
+
+/* ===== 资源库 ===== */
+.res-box{background:#FDFAF2;border:1px solid var(--line);border-radius:18px;padding:22px 20px}
+.res-intro{font-size:14px;font-weight:300;color:rgba(38,51,46,.75);margin-bottom:14px}
+.res-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px}
+.res-card{display:flex;flex-direction:column;gap:6px;background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:14px 16px}
+.res-card .rt{font-size:11px;letter-spacing:1px;color:var(--rust);font-weight:600}
+.res-card h4{font-family:var(--serif);font-size:15px;line-height:1.5}
+.res-card p{font-size:12.5px;font-weight:300;color:rgba(38,51,46,.72);flex:1}
+.res-card a{display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:500;color:var(--amber);margin-top:2px}
+.res-card a svg{width:13px;height:13px}
+
+/* ===== 打印版探险手册 ===== */
+.print-toolbar{position:sticky;top:0;z-index:40;background:rgba(246,241,231,.94);border-bottom:1px solid var(--line);backdrop-filter:blur(6px)}
+.print-toolbar-inner{max-width:820px;margin:0 auto;padding:12px 20px;display:flex;align-items:center;gap:14px}
+.print-toolbar .t{font-family:var(--serif);font-weight:700;font-size:16px}
+.btn-print{display:inline-flex;align-items:center;gap:9px;background:var(--teal);color:#F3DFC0;font-size:15px;font-weight:600;padding:12px 22px;border-radius:99px;margin-left:auto}
+.btn-print svg{width:16px;height:16px}
+.print-wrap{max-width:820px;margin:0 auto;padding:26px 20px 60px}
+.print-page{background:#fff;border:1px solid var(--line);border-radius:14px;padding:30px 30px 24px;margin-bottom:24px;box-shadow:0 4px 16px rgba(31,58,58,.06)}
+.print-cover{text-align:center}
+.print-cover img.cover-pic{width:100%;height:230px;object-fit:cover;border-radius:12px;margin-bottom:20px}
+.print-cover h1{font-family:var(--serif);font-weight:900;font-size:34px}
+.print-cover .sub{margin-top:8px;color:rgba(38,51,46,.7);font-weight:300}
+.print-steps{margin-top:22px;display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;text-align:left}
+.print-steps .s{background:var(--parchment);border-radius:12px;padding:14px 16px;font-size:13.5px}
+.print-steps .s b{display:block;font-family:var(--serif);font-size:15px;margin-bottom:4px;color:var(--teal)}
+.pu-head{display:flex;align-items:baseline;gap:14px;border-bottom:2px solid var(--ink);padding-bottom:10px;margin-bottom:14px}
+.pu-head .no{font-family:var(--serif);font-weight:900;font-size:30px;color:var(--amber)}
+.pu-head h2{font-family:var(--serif);font-weight:700;font-size:24px}
+.pu-head .tm{margin-left:auto;font-size:13px;color:rgba(38,51,46,.6)}
+.pu-pic{float:right;width:150px;height:110px;object-fit:cover;border-radius:10px;margin:0 0 12px 16px;border:1px solid var(--line)}
+.pu-hook{background:var(--teal);color:#F3ECDD;border-radius:12px;padding:14px 18px;font-family:var(--serif);font-size:16px;line-height:1.6;margin-bottom:14px}
+.pu-points h3,.pu-think h3,.pu-task h3{font-family:var(--serif);font-size:16px;display:flex;align-items:center;gap:8px;margin:14px 0 8px}
+.pu-points h3::before{content:"";width:5px;height:16px;background:var(--amber);border-radius:2px}
+.pu-points ul{margin-left:18px;display:grid;gap:6px;font-size:14px;color:rgba(38,51,46,.88)}
+.pu-points li::marker{color:var(--amber)}
+.pu-think{background:#FDFAF2;border:1px solid var(--line);border-radius:12px;padding:14px 18px}
+.pu-think .q{font-family:var(--serif);font-size:15px;font-weight:700}
+.pu-think .opts{margin-top:8px;display:grid;gap:6px;font-size:14px}
+.pu-think .opts span b{font-weight:700}
+.pu-answer{margin-top:10px;font-size:13px;color:var(--moss);border-top:1px dashed var(--line);padding-top:8px}
+.pu-task{font-size:14px;margin-top:8px}
+.pu-foot{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;margin-top:18px;border-top:1px dashed var(--line);padding-top:14px}
+.stamp-ring{flex:0 0 86px;height:86px;border-radius:50%;border:3px dashed var(--rust);display:grid;place-items:center;color:var(--rust);font-family:var(--serif);font-size:13px;text-align:center;line-height:1.3}
+.pu-parent{font-size:12.5px;color:rgba(38,51,46,.7);flex:1}
+.pu-parent b{color:var(--rust)}
+.tl-print{display:grid;grid-template-columns:1fr 1fr;gap:8px 22px;margin-top:10px}
+.tl-print .it{font-size:13px;border-bottom:1px dashed var(--line);padding:5px 0}
+.tl-print .y{font-family:var(--serif);font-weight:700;color:var(--amber);margin-right:8px}
+@media print{
+  @page{size:A4;margin:12mm}
+  body{background:#fff}
+  .topbar,.stamp-big,.print-toolbar,.no-print{display:none !important}
+  .print-wrap{max-width:none;padding:0}
+  .print-page{box-shadow:none;border:none;border-radius:0;padding:0;margin:0;page-break-after:always;break-after:page}
+  .print-page:last-child{page-break-after:auto;break-after:auto}
+  .pu-pic{float:right}
+  *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+}
+@media (max-width:768px){
+  .path-line{left:12px;transform:none}
+  .station{margin-left:30px;max-width:none}
+  .hero-body{padding:52px 20px 46px}
+  .unit-hero img{height:230px}
+  .howto-grid{grid-template-columns:1fr}
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.001s !important;transition-duration:.001s !important}
+  html{scroll-behavior:auto}
+}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-inner">
+    <a href="#" class="home-link" onclick="window.close();return false;">← 回工作台</a>
+    <a href="#/" class="brand" id="brandLink">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polygon points="16.24,7.76 14.12,14.12 7.76,16.24 9.88,9.88 16.24,7.76"/></svg>
+      课前探险地图
+    </a>
+    <div class="progress-mini">
+      <span id="miniNum">0/11</span>
+      <div class="progress-track"><div class="progress-fill" id="miniFill" style="width:0%"></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== 视图容器 ===== -->
+<main id="app"></main>
+
+<div class="stamp-big" id="stampBig"><span>已探<small>EXPLORED</small></span></div>
+
+<script>
+/* =====================================================
+   数据：四上数学 11 个单元 × 数学史探险
+   ===================================================== */
+var IMG = {
+  hero:"https://aka.doubaocdn.com/s/4n562P4LdC",
+  1:"https://aka.doubaocdn.com/s/yUhkEZ5a0S",
+  2:"https://aka.doubaocdn.com/s/KQxRZ6gwq0",
+  3:"https://aka.doubaocdn.com/s/pNFGZBLjJm",
+  4:"https://aka.doubaocdn.com/s/eQQc9NOe4w",
+  5:"https://aka.doubaocdn.com/s/LCTMW1fISd",
+  6:"https://aka.doubaocdn.com/s/hRHQWkV9QW",
+  7:"https://aka.doubaocdn.com/s/mlNgVY25MZ",
+  8:"https://aka.doubaocdn.com/s/tRynfl8rnR",
+  9:"https://aka.doubaocdn.com/s/ktaiDfe4sV",
+  10:"https://aka.doubaocdn.com/s/36k2RZF5rc",
+  11:"https://aka.doubaocdn.com/s/N5r5hlgyL4"
+};
+
+/* 想深入 · 资源库：孩子说“我还想看”时的下一站 */
+var RES = {
+ 1:[
+  {t:"纪录片", n:"BBC《数学的故事》第1集《宇宙的语言》", d:"讲记数法、大数和“零”的诞生，中英字幕，豆瓣9.0", u:"https://search.bilibili.com/all?keyword=数学的故事"},
+  {t:"绘本", n:"《汉声数学图画书·零不只是没有》", d:"专门用孩子能懂的方式讲“0”的故事，正好对应本单元", u:"https://book.douban.com/subject/37339331/"},
+  {t:"数学童话", n:"李毓佩《奇妙的数王国》", d:"数学童话大师的数王国冒险，数字的来历都在故事里", u:"https://search.dangdang.com/?key=奇妙的数王国"},
+  {t:"动手", n:"翻倍大挑战", d:"拿一张纸对折，猜猜最多能折几次？再算“每天翻一倍，30天是多少”——你会被吓到", u:""}
+ ],
+ 2:[
+  {t:"纪录片", n:"BBC《数学的故事》", d:"希腊几何、欧几里得与“从几条公理推出整个几何世界”的诞生，都在片里", u:"https://search.bilibili.com/all?keyword=数学的故事"},
+  {t:"科普书", n:"《可怕的科学·逃不出的怪圈》", d:"圆、角度、形状的有趣真相，越读越上瘾", u:"https://book.douban.com/series/75907"},
+  {t:"动手", n:"观察你的时钟", d:"为什么“1小时60分、1分钟60秒”？数数钟面一圈多少格——这是古巴比伦人留给全世界的遗产", u:""},
+  {t:"动手", n:"量角器大搜查", d:"在家找5个不同的角（门缝、剪刀、钟表指针），用量角器量出来，试试能不能凑成360°", u:""}
+ ],
+ 3:[
+  {t:"电子书", n:"《李毓佩数学西游记（升级版）》", d:"微信读书上就能读，酷酷猴用数学斗妖怪，计算藏在故事里", u:"https://weread.qq.com/web/reader/46432340811e38a01g010d24"},
+  {t:"动画", n:"《数学荒岛历险记》", d:"用数学知识闯关救小岛的国产数学动画，曾在央视少儿频道热播", u:"https://so.youku.com/search/q_数学荒岛历险记"},
+  {t:"科普书", n:"《可怕的科学·要命的数学》", d:"算得快、算得巧的历史，看看古人没有计算器怎么活", u:"https://book.douban.com/series/75907"},
+  {t:"动手", n:"自制纳皮尔骨棒", d:"和爸妈一起用纸板做一副“会算乘法的小木棒”，你也能体验四百年前的“计算器”", u:""}
+ ],
+ 4:[
+  {t:"绘本", n:"《汉声数学图画书》几何与空间分册", d:"从平面到立体、从不同角度看图形，和本单元完全同步", u:"https://book.douban.com/subject/37339331/"},
+  {t:"动手", n:"三视图拍照", d:"给家里一个杯子或盒子拍正面、侧面、俯视三张照，让家人猜每张是哪一面", u:""},
+  {t:"阅读", n:"伽莫夫《从一到无穷大》第三章", d:"家长读给孩子听：向南5街区、右转2街区、上7层楼——三个数就能定位一个点", u:""}
+ ],
+ 5:[
+  {t:"动画", n:"《数学荒岛历险记》", d:"加减乘除都变成了角色，运算的“性格”一看就懂", u:"https://so.youku.com/search/q_数学荒岛历险记"},
+  {t:"数学童话", n:"李毓佩《奇妙的数王国》", d:"数字王国里的规律与怪事，越看越想探究", u:"https://search.dangdang.com/?key=奇妙的数王国"},
+  {t:"动手", n:"找反例小侦探", d:"出题考爸爸：“减法能交换吗？除法能交换吗？”谁能最快找到反例谁赢", u:""},
+  {t:"阅读", n:"哈代《一个数学家的辩白》", d:"家长读给大孩子听：数学是对“显然之事”给出证明的学问", u:""}
+ ],
+ 6:[
+  {t:"视频", n:"哥尼斯堡七桥问题（B站搜）", d:"一个用“一笔画”解决的世界难题，看懂它的那一刻你会很爽", u:"https://search.bilibili.com/all?keyword=哥尼斯堡七桥问题"},
+  {t:"动手", n:"一笔画设计大赛", d:"全家每人设计3个图形，互相挑战“能不能一笔画成”，再用奇偶点规律揭晓答案", u:""},
+  {t:"科普书", n:"《可怕的科学·特别要命的数学》", d:"用有趣的方式讲图形与规律，和七桥一脉相承", u:"https://book.douban.com/series/75907"}
+ ],
+ 7:[
+  {t:"视频", n:"莫比乌斯环（B站搜）", d:"看科学家玩“扭一扭的纸带”：沿中线剪开，居然没有断成两半", u:"https://search.bilibili.com/all?keyword=莫比乌斯环"},
+  {t:"动手", n:"切土豆看截面", d:"把土豆切成长方体，再横切、斜切，观察截面形状怎么变——立体几何就从这里开始", u:""},
+  {t:"绘本", n:"《汉声数学图画书》几何与空间分册", d:"立体图形的秘密，图画书讲得特别清楚", u:"https://book.douban.com/subject/37339331/"}
+ ],
+ 8:[
+  {t:"阅读", n:"伽莫夫《从一到无穷大》麦粒棋盘", d:"家长读给孩子听：棋盘的麦子翻倍，到底有多惊人", u:""},
+  {t:"动手", n:"折纸翻倍实验", d:"一张纸对折1次、2次……猜猜对折多少次厚度能超过珠穆朗玛峰？（答案约42次）", u:""},
+  {t:"数学童话", n:"李毓佩《数学西游记》", d:"路程、速度、数量关系在故事里活起来", u:"https://weread.qq.com/web/reader/46432340811e38a01g010d24"}
+ ],
+ 9:[
+  {t:"绘本", n:"《汉声数学图画书》统计与概率分册", d:"怎么“让数据说话”、平均数与概率，图画书讲得明明白白", u:"https://book.douban.com/subject/37339331/"},
+  {t:"科普书", n:"《可怕的科学·寻找你的幸运星》", d:"概率与统计的有趣真相，读完全班你是最懂数据的", u:"https://book.douban.com/series/75907"},
+  {t:"动手", n:"一周天气记录员", d:"记录7天天气，画成条形图，看看这一周“晴”多还是“雨”多", u:""},
+  {t:"阅读", n:"央视科普《为什么钱塘江大潮独步天下》", d:"官方科普：潮汐的规律藏在数据里，正好接上你学过的统计", u:"https://news.cctv.cn/2023/09/25/ARTIvgR1OpAsU26yqTybCCmN230925.shtml"}
+ ],
+ 10:[
+  {t:"动手", n:"自制密码本", d:"用0和1（或点和划）给全家人的名字编码，互相破译——你就是小小报务员", u:""},
+  {t:"视频", n:"“二进制”科普动画（B站搜）", d:"5分钟搞懂计算机怎么用0和1思考", u:"https://search.bilibili.com/all?keyword=二进制 科普 动画"},
+  {t:"绘本", n:"《汉声数学图画书·零不只是没有》", d:"从“0”到“码”，一个符号的旅行", u:"https://book.douban.com/subject/37339331/"}
+ ],
+ 11:[
+  {t:"纪录片", n:"央视纪录片《北斗》", d:"中国北斗卫星导航系统的故事，看看你手机里“导航”背后的功臣", u:"https://search.bilibili.com/all?keyword=纪录片 北斗"},
+  {t:"动手", n:"找北极星", d:"晚上找到北斗七星，沿勺口两颗星延长线5倍距离找北极星——古人就是这么看星辨向的", u:""},
+  {t:"阅读", n:"伽莫夫《从一到无穷大》第五章", d:"家长读给孩子听：当速度接近光速，坐标也要“变换”", u:""}
+ ]
+};
+
+var UNITS = [
+{
+  id:1, no:"①", title:"认识更大的数", sub:"人类花了几千年，才学会“写大数”",
+  time:"9 月中下旬", hook:"如果没有“0”，你还能写出 10、100、1000 吗？——这个问题，人类花了六千年才解决。",
+  story:[
+    {tag:"对照", h:"“很多”能当数用吗？", p:[
+      "伽莫夫《从一到无穷大》开篇讲了两个对照：非洲霍屯督部落的语言里，没有比 3 更大的数词——问他们“有几个儿子”，超过 3 就回答“很多”；而古罗马人要写“一百万”，只能连写 1000 个 M，“够他忙碌几个小时”。",
+      "你看，没有好用的记数法，连“描述一个很大的数”都做不到。这就是第一单元要先解决的事。"
+    ], facts:["霍屯督人", "古罗马 M", "伽莫夫"]},
+    {tag:"飞跃", h:"十进位值制：用有限的符号写无限多的数", p:[
+      "《这才是好读的数学史》梳理：过去六千多年里，不同文明用过 100 多种记数系统。古埃及象形数字要靠“凑”出一长串符号，位置无关紧要；直到十进位值制出现——同一个“1”，在个位是 1，在十位是 10，位置本身带着数值。",
+      "数学史家拉普拉斯称它是“人类最伟大的发明之一”。而它最大的功臣，是“零”。"
+    ], facts:["100 多种记数法", "位值制", "拉普拉斯"]},
+    {tag:"零", h:"“零”的故事：从空位到真正的数", p:[
+      "巴比伦人约公元前 4 世纪用一个小点标记“空位”；印度人约公元 600 年把它改成小圆圈；到公元 9 世纪，印度数学家完成了一次概念飞跃——把“空”当作一个真正的数来运算（“一个数乘以零得零”）。",
+      "语言留下了证据：梵语 sunya（空）→ 阿拉伯语 sifr → 拉丁语 zephirum → 英文 zero 和 cipher。“零”与“密码”，竟是同一个词。"
+    ], facts:["sunya→sifr→zero", "零与密码同源"]},
+    {tag:"极限", h:"大数能有多大？阿基米德来算", p:[
+      "阿基米德在《数沙者》里写下：“我说得出比填满整个宇宙的沙粒还大的数字”，还设计了一套类似科学计数法的方法，逐级定义更大的数。他自己评价说，这“促使数学向前迈出了重要的一步”。",
+      "这一单元把数域从“万”扩到“亿”，其实就是重走人类几千年才走通的路。"
+    ], facts:["阿基米德《数沙者》"]}
+  ],
+  quiz:{
+    q:"古罗马人要写“一百万”，需要连写多少个 M？",
+    opts:["100 个","1000 个","10000 个"], ans:1,
+    why:"因为古罗马数字里没有“位值制”——1 就是 1，1000 个 M 排在一起，每个 M 仍然是 1，只能硬写 1000 个。这也是为什么位值制被称作“人类最伟大的发明之一”。"
+  },
+  task:"上课前留意：课本是怎么把“万”变成“亿”的？数一数，“亿”这个数到底有几个 0。",
+  parent:"晚餐随口一问：“你能数到一亿吗？”从猜开始，不急着纠正。"
+},
+{
+  id:2, no:"②", title:"线与角", sub:"六十进制、公理化与两千年的平行线悬案",
+  time:"10 月", hook:"为什么一圈是 360 度，而不是 100 度？——答案在四千年前的古巴比伦。",
+  story:[
+    {tag:"六十进制", h:"一圈 360 度，是古巴比伦留给你的", p:[
+      "古巴比伦人用六十进制数数。为什么是 60？因为它因数极多，容易被 2、3、4、5、6、10、12……整除，算起来方便；而 360 又接近一年的天数，于是圆被分成 360 份，每份一度。",
+      "你手表上“1 小时 60 分、1 分钟 60 秒”，就是这套远古系统的活化石。"
+    ], facts:["六十进制", "360≈一年天数"]},
+    {tag:"天文", h:"喜帕恰斯：把天空分成 360 度", p:[
+      "公元前 2 世纪，希腊天文学家喜帕恰斯把天球分成 360 度，并制作“弦表”来测角度——他用半径 3438 的圆，让一分弧长近似等于一个单位。角与“定位”，从一开始就绑定在一起。"
+    ], facts:["喜帕恰斯", "弦表"]},
+    {tag:"公理化", h:"欧几里得：一本《几何原本》，统治两千年", p:[
+      "约 2300 年前，欧几里得在亚历山大编成《几何原本》：13 卷、465 个命题，全部由定义、公设和证明组织而成，此后印刷超过 2000 种版本。美国诗人米莱写道：“唯有欧几里得，看见了真正的美丽。”",
+      "但书里有一条“第五公设”（平行公设）不像其他公设那样不证自明。两千多年来，无数数学家想证明它都失败了；直到 19 世纪，罗巴切夫斯基、黎曼等人敢于反其道而行，创立非欧几何——在弯曲的宇宙里，平行线真的会相交，爱因斯坦的广义相对论用的正是它。"
+    ], facts:["13 卷 465 命题", "第五公设", "非欧几何"]}
+  ],
+  quiz:{
+    q:"古人为什么选中 60 来当“数数的基数”？",
+    opts:["60 的因数特别多，方便等分","60 是当时最大的数","随便选的，没有原因"], ans:0,
+    why:"60 能被 2、3、4、5、6、10、12、15、20、30 整除，分东西、分角度都特别方便——这是古巴比伦人的实用智慧。"
+  },
+  task:"上课找到量角器，数一数：一圈是不是正好 360 个刻度？再想想“平角 180°”意味着什么。",
+  parent:"拿量角器之前先问一句：“为什么一圈是 360 度？”让好奇心先到。"
+},
+{
+  id:3, no:"③", title:"整数乘法（二）", sub:"为了“算得快”，人类奋斗了三千年",
+  time:"10–11 月", hook:"有一台机器，是 19 岁的少年为了帮爸爸算账而造的——它是一切“自动计算”的祖先。",
+  story:[
+    {tag:"工具", h:"一部“算得快”的工具演进史", p:[
+      "《这才是好读的数学史》梳理出一条壮观的链条：五千年前的东方算盘 → 1617 年纳皮尔骨算筹（用刻度骨棒自动完成乘法）→ 1630 年奥格特计算尺（成为工程师标配直到 20 世纪中叶）→ 1642 至 1652 年，年轻的法国数学家帕斯卡造出能做加减的“加法器” → 莱布尼茨设计出能做乘除的步进计算器。",
+      "帕斯卡的动机很朴素——为当税务官的父亲减轻算账之苦。课本“神奇的计算工具”一课，正是这条长河的一朵浪花。"
+    ], facts:["算盘", "纳皮尔", "帕斯卡 19 岁", "莱布尼茨"]},
+    {tag:"对数", h:"把“乘除变加减”：人类的一次神操作", p:[
+      "1544 年，斯蒂菲尔在《整数算术》里写下两组数列的对应：0、1、2、3、4、5…… 与 1、2、4、8、16、32…… 前者等差、后者等比——乘除可以化成指数的加减。",
+      "苏格兰贵族纳皮尔在 16 世纪 90 年代把这个洞察打磨成实用系统（“对数”），让被天文计算压垮的学者们大大减负。这就是为什么课本把“有趣的算式”和“计算工具”放在乘法单元里：算得快，从来不只是熟练度问题。"
+    ], facts:["斯蒂菲尔 1544", "纳皮尔对数"]}
+  ],
+  quiz:{
+    q:"莱布尼茨的步进计算器，用的是哪种算法？——它是一切现代计算机语言的基础。",
+    opts:["二进制","十进制","六十进制"], ans:0,
+    why:"莱布尼茨的机器“计算是用二进制算法完成的”（《这才是好读的数学史》），用 0 和 1 就能表示一切数——这也为两千年后的计算机埋下了种子。"
+  },
+  task:"上课看“神奇的计算工具”一课，数一数：人类一共发明过几种“算得更快”的工具？",
+  parent:"孩子嫌算得慢时讲：“人类为了算得快，奋斗了三千年。”顺手讲帕斯卡 19 岁造计算器的故事。"
+},
+{
+  id:4, no:"④", title:"我们生活的空间（二）", sub:"坐标、投影与“换个角度看世界”",
+  time:"11 月", hook:"一个物体，正面看是长方形，上面看是圆形——它最可能是什么？",
+  story:[
+    {tag:"射影", h:"“在旁观者的眼中”：看，也是一门数学", p:[
+      "“从不同位置看同一个物体”，在数学里有一个正经分支——射影几何。《这才是好读的数学史》第 20 篇的标题就叫“在旁观者的眼中”：研究一个图形在观察者眼中如何因视角而变。这正是课本“观察的范围”与“从不同位置观察物体”。"
+    ], facts:["射影几何"]},
+    {tag:"坐标", h:"把“看”变成“算”：费马与笛卡尔", p:[
+      "1630 年前后，以“业余爱好”沉迷数学的律师费马，先发展出用坐标描绘两个量关系的办法；不久笛卡尔在《方法论》附录《几何学》里系统化了它。",
+      "书里的评价值得记住：“没有这座几何学和代数之间的桥梁，就没有科学的微积分、医学的 CT 扫描、工业用的自动化机床、艺术和娱乐的计算机动画。”"
+    ], facts:["费马", "笛卡尔《几何学》"]},
+    {tag:"考古", h:"一个常被误读的史实", p:[
+      "我们今天熟悉的“笛卡尔直角坐标系”，其实不是笛卡尔本人画出来的——书里考证，两轴垂直的坐标系要到一个半世纪后才定型，连欧拉直到 18 世纪中叶也没有在每张图上画纵轴。",
+      "伽莫夫《从一到无穷大》则把“用数定位”讲得很直观：纽约的街区天然是直角坐标系；莫斯科以克里姆林宫为中心放射加同心圆，是极坐标系。"
+    ], facts:["直角坐标系的误会", "纽约 vs 莫斯科"]}
+  ],
+  quiz:{
+    q:"在陌生城市，有人告诉你：“向南走 5 个街区，右转 2 个街区，上 7 层楼。”——一共用了几个数来定位一个点？",
+    opts:["1 个","2 个","3 个"], ans:2,
+    why:"“5、2、7”三个数，就确定了空间中的一个点——这就是坐标思想的雏形（伽莫夫的原话）。"
+  },
+  task:"从家里找一个物体，从正面、侧面、上面各看一眼，画下三张不同的图，上课带去比一比。",
+  parent:"给水杯拍正面、侧面、俯视三张照片，让孩子认——同一个东西，怎么长得不一样。"
+},
+{
+  id:5, no:"⑤", title:"运算律", sub:"代数符号，从文字迷宫到 x、y、z",
+  time:"11–12 月", hook:"5−3 和 3−5 一样吗？减法不行，凭什么加法可以随便换顺序？",
+  story:[
+    {tag:"代数", h:"曾几何时，方程里一个符号都没有", p:[
+      "阿拉伯代数时期，方程完全靠文字写。花拉子米的《还原与对消》被译成拉丁文后，“al-jabr”变成了“algebra”（代数），但表达还是这样：“三份地产等于四件物品外加上两个迪拉姆”——一个符号也没有。"
+    ], facts:["花拉子米", "al-jabr→algebra"]},
+    {tag:"突围", h:"丢番图 → 韦达 → 笛卡尔", p:[
+      "公元 3 世纪，希腊的丢番图开始在《算术》里用符号代表未知数，书里评价他“预设了一千年后欧洲出现的代数符号”。",
+      "16 世纪末，法国数学家韦达（1540—1603）迈出决定性一步——他本职是法国宫廷的“密码破译专家”（曾破译西班牙密信），也许正因如此，他首创用元音字母表示未知量、辅音表示已知数，写出了形如 ax²+bx=c 的方程。",
+      "最后，笛卡尔定下用 x、y、z 表示未知量、a、b、c 表示已知量——你今天写的字母算式，基本就是他的版本。"
+    ], facts:["丢番图", "韦达（密码专家）", "笛卡尔 x、y、z"]},
+    {tag:"为什么", h:"“显然的规律”为什么值得郑重地学？", p:[
+      "哈代《一个数学家的辩白》给出了最好的回答：真正的数学研究，正是对“显然之事”给出证明。减法不满足交换律（5−3≠3−5），恰恰说明“规律必须被验证”。",
+      "哈代盛赞欧几里得用反证法证明“素数无穷”：“这一招比任何象棋开局都高明——棋手可能舍弃一个兵，而数学家舍掉的是整个棋局。”运算律学的不是四个公式，而是“如何确定一个规律永远成立”的第一次完整体验。"
+    ], facts:["哈代《辩白》", "反证法"]}
+  ],
+  quiz:{
+    q:"韦达开始用字母写方程之前，他的职业是什么？",
+    opts:["画家","密码破译专家","天文学家"], ans:1,
+    why:"韦达是法国宫廷的密码破译专家，曾成功破译西班牙的密信。也许正是“解码”的思维，让他想到用字母来代换未知数。"
+  },
+  task:"上课亲自验证：减法、除法到底能不能交换顺序？分别举两个反例。",
+  parent:"先问“5−3 和 3−5 一样吗”，再顺势讲交换律——规律要被验证，才算数。"
+},
+{
+  id:6, no:"⑥", title:"数学好玩 · 数图形", sub:"欧拉的一笔画与图论的诞生",
+  time:"12 月上", hook:"1736 年，一座被河分成四块的城市，七座桥连着两岸。能一次不重复地走完七座桥吗？",
+  story:[
+    {tag:"传奇", h:"哥尼斯堡七桥：把走路变成“一笔画”", p:[
+      "1736 年，欧拉面对“哥尼斯堡七桥问题”，没有一座一座去试，而是把陆地缩成点、桥缩成线，把“走遍七桥”变成一个“一笔画”问题，用奇偶性的推理证明了不可能——由此开创了一个全新的数学分支：图论。",
+      "今天你手机上做路线规划、分析社交网络，用的都是它的后代。"
+    ], facts:["欧拉 1736", "图论诞生"]},
+    {tag:"定理", h:"数一数，竟然数出个漂亮定理", p:[
+      "数图形背后藏着一个深刻的公式：V−E+F=2（顶点数 − 棱数 + 面数 = 2）。《这才是好读的数学史》在“柏拉图立体”篇里请读者验证：“正多面体和半正多面体都满足它，所有多面体都是这样吗？你能证明吗？”",
+      "一个看起来只是“数一数”的活动，通向的却是 18 世纪最漂亮的定理之一。哈代在《辩白》里反复强调：数学是“真正的游戏”，乐趣在于用最少的规则推出最深的结论。"
+    ], facts:["V−E+F=2"]}
+  ],
+  quiz:{
+    q:"欧拉证明“七桥不可能一次走完”，靠的是把桥和陆地变成了什么？",
+    opts:["点和线","数字表格","圆形积木"], ans:0,
+    why:"把陆地缩成点、桥缩成线，走桥就变成了“一笔画”问题——用奇偶性推理即可证明。把复杂问题简化成图形，这正是图论的力量。"
+  },
+  task:"上课前自己设计 3 个“一笔画”图形，带到班上比一比，看谁的设计最刁钻。",
+  parent:"周末一起画“一笔画”：哪些图形能一笔画成、哪些不能？猜完再验证。"
+},
+{
+  id:7, no:"⑦", title:"图形的奥秘", sub:"正多面体、欧拉公式与“看见内部”",
+  time:"12 月中", hook:"世界上“正”得最完美的立体，一共只有 5 种。你能说出几种？",
+  story:[
+    {tag:"完美", h:"只有 5 种“正”得完美的立体", p:[
+      "正四面体、立方体、正八面体、正十二面体、正二十面体——世界上“正”得完美的凸多面体只有这 5 种。柏拉图在《理想国》里把数学列为理想教育的核心，并把正多面体与宇宙元素一一对应。",
+      "而连接所有立体的一条公式是 V−E+F=2：无论你切出什么截面、搭出什么形状，顶点、棱、面之间总满足这个不变关系。这就是“图形的奥秘”在数学史中的坐标。"
+    ], facts:["柏拉图立体", "V−E+F=2"]},
+    {tag:"看见内部", h:"切开看内部：从豆腐到 CT 扫描", p:[
+      "“切开看内部”是现代医学的看家本领：CT 的原理，正是沿无数方向“切开”人体再重建三维图像（1970 年代问世，1979 年获诺贝尔奖）。",
+      "课本让孩子切豆腐、切橡皮泥看截面，与这项技术共享同一个思想：截面是认识三维内部的最短路径。"
+    ], facts:["CT 扫描", "截面思想"]},
+    {tag:"颠覆", h:"莫比乌斯环：空间可以被“扭曲”", p:[
+      "伽莫夫《从一到无穷大》提供了一个更颠覆的空间直觉：把纸带扭转 180 度粘成“莫比乌斯环”，沿中线剪开，得到的竟是一个更大的环而非两个；一只有“左脸”的小驴在上面走一圈，回来会变成“右脸”。",
+      "空间可以被扭曲，而拓扑学正是研究这种“不变性”的学问——对四年级孩子来说，这是“立体图形”单元埋下的、通向现代数学的引子。"
+    ], facts:["莫比乌斯环", "拓扑学"]}
+  ],
+  quiz:{
+    q:"把莫比乌斯环沿中线剪开，你会得到？",
+    opts:["两个小环","一个更大的环","一个正方形"], ans:1,
+    why:"伽莫夫书里的经典实验：沿中线剪开莫比乌斯环，得到的是一个更大的环——因为纸带只“扭了一半”，边变成了两条。亲手剪一次，你会记住它。"
+  },
+  task:"上课用橡皮泥切一个正方体，数一数：一刀下去，截面可能出现几种形状？",
+  parent:"切黄瓜、切土豆时看截面；再和孩子折一个莫比乌斯环，沿中线剪开，看它怎么“变魔术”。"
+},
+{
+  id:8, no:"⑧", title:"运用数量关系解决问题", sub:"从比例到函数，模型思想的源头",
+  time:"12 月底–1 月", hook:"棋盘第一格放 1 粒麦子，之后每格翻倍——到第 64 格时，麦子多得够全世界吃 2000 年。",
+  story:[
+    {tag:"爆炸", h:"麦粒棋盘：翻倍的惊人力量", p:[
+      "每格翻倍，第 64 格的麦粒总数 2⁶⁴−1 = 18,446,744,073,709,551,615 粒，约等于全球 2000 年的小麦产量（伽莫夫《从一到无穷大》）。",
+      "同样一组“每份量×份数”，一旦基数和份数变了，数量就冲出直觉的边界——这就是“数量关系”最让人敬畏的一面。"
+    ], facts:["2⁶⁴−1", "全球 2000 年小麦"]},
+    {tag:"函数", h:"“一个公式管一类题”，源头在这里", p:[
+      "费马在 1630 年前后证明：“任何有两个变量的方程都定义了一条曲线。”这句话是函数思想的种子——两个量之间的关系，可以被“看”成一条线，也可以被算成一张表。",
+      "课本把“单价×数量=总价”“速度×时间=路程”提炼成“一个公式管一类题”，这在数学史上叫模型化。骑车、高铁、光年、阿基米德的杠杆（力×力臂=力矩），全是同一个线性模型在不同世界的投影。"
+    ], facts:["费马", "模型化", "y=ax"]},
+    {tag:"预告", h:"今天的一个公式，就是未来的一门函数", p:[
+      "到了初中，这个模型会正式变成函数 y=ax。今天让孩子在购物、出行里识别它，就是未来“用数学描述世界”的第一课。"
+    ], facts:["函数萌芽"]}
+  ],
+  quiz:{
+    q:"棋盘第一格放 1 粒、之后每格翻倍——第 5 格应该有几粒？",
+    opts:["5 粒","16 粒","32 粒"], ans:1,
+    why:"1、2、4、8、16……每格翻倍，第 5 格是 16 粒。翻倍的增长方式，比加法快得多——这正是麦粒棋盘故事的数学内核。"
+  },
+  task:"出门前，用“速度×时间=路程”先算好到达时间，到了之后验证准不准。",
+  parent:"出门前让孩子算“我们几点能到”，到了再验证——让公式在生活里被反复印证。"
+},
+{
+  id:9, no:"⑨", title:"数据的表示和分析（一）", sub:"统计学，从“让数据说话”开始",
+  time:"1 月", hook:"1662 年，一位伦敦店主开始整理全城的丧葬记录——一门全新的科学，就这样诞生了。",
+  story:[
+    {tag:"起点", h:"统计学，出生在一张登记表上", p:[
+      "《这才是好读的数学史》“正确解读数据”一章考证了起点：1662 年，伦敦店主约翰·格雷特出版《死亡记录的自然和政治观察》，把政府收集的每周、每年丧葬记录整理成表，分析“出生男性多于女性、女性比男性长寿、年死亡率相当稳定”等模式，并编出“伦敦生命表”——人类第一次基于数据估算预期寿命。",
+      "格雷特与好友威廉·佩蒂称之为“政治算术”：通过分析数据，获取关于一个国家的信息。"
+    ], facts:["格雷特 1662", "生命表", "政治算术"]},
+    {tag:"精算", h:"哈雷、伯努利：让数字为保险与概率立法", p:[
+      "1693 年，以彗星闻名的天文学家哈雷为研究保险年金编制死亡率表，成为精算科学的创始人——统计学由此成为保险业的科学基础。1713 年，雅各布·伯努利的《推测术》成为第一本系统处理统计与概率的著作。",
+      "该书还点出一个词源：“统计”（statistics）来自“国家”（state），18 世纪发明，本意是“对国家的科学性研究”。"
+    ], facts:["哈雷 1693", "伯努利 1713", "statistics←state"]},
+    {tag:"画图", h:"把数字画成图：数据可视化之父", p:[
+      "书外补充一段史实：苏格兰人威廉·普莱费尔 1786 年出版《商业与政治图解集》，发明了条形图、折线图和饼图，主张“图比表格更会说话”，被后人称为数据可视化之父。（注意：他和提出平行公设的几何学家约翰·普莱费尔，是同姓的两个人。）",
+      "今天你看的新闻图表、股市 K 线、天气预报，全部是这套思想的子孙。"
+    ], facts:["普莱费尔 1786", "条形图/折线图/饼图"]}
+  ],
+  quiz:{
+    q:"“统计”这个词（statistics），最早来自哪个词？",
+    opts:["计算（calculate）","国家（state）","数字（digit）"], ans:1,
+    why:"“statistics”来自“state”（国家），本意是“对国家的科学性研究”——统计从诞生起，就是为“看懂一个国家/一群人”服务的。"
+  },
+  task:"记录一周的天气（晴/多云/雨），上课做成一张条形图，看看哪天下雨最多。",
+  parent:"和孩子一起记录一周天气，画一张条形图——让“收集→整理→表示”在生活里发生一次。"
+},
+{
+  id:10, no:"⑩", title:"综合实践 · 编码", sub:"“零”与“密码”同源，二进制与计算机",
+  time:"配合第一单元", hook:"还记得吗？“零”和“密码”在英语里是同一个词——sunya 一路变成了 zero 和 cipher。",
+  story:[
+    {tag:"同源", h:"编码与记数，共享同一条血脉", p:[
+      "第一单元那个词源考证在这里续上了：梵语 sunya（空）经阿拉伯语 sifr 演化为英文 zero 和 cipher——“零”与“密码”竟是同一个词。编码与记数，共享同一条血脉。"
+    ], facts:["zero=cipher"]},
+    {tag:"二进制", h:"莱布尼茨：用 0 和 1 算一切", p:[
+      "早在 17 世纪，莱布尼茨就设计了用二进制算法运行的“步进计算器”。《这才是好读的数学史》评价：“它的计算是用二进制算法完成的，这是所有现代计算机语言的基础。”"
+    ], facts:["莱布尼茨", "二进制"]},
+    {tag:"逻辑", h:"布尔：把“思考”也变成算式", p:[
+      "把逻辑本身变成 0/1 运算的，是 19 世纪的布尔代数（该书第 24 篇“推理算法”）：真/假、与/或/非，全部可以写成代数式——计算机“思考”的方式由此诞生。",
+      "再加上从算盘、纳皮尔骨算筹、计算尺、帕斯卡加法器到电子计算机的演进，课本“设计编码方案”一课，背后是一整部信息处理史。书外补充：1948 年香农发表《通信的数学理论》，创立信息论——今天的二维码、卫星通信、互联网都建立在这之上。"
+    ], facts:["布尔代数", "香农 1948", "信息论"]}
+  ],
+  quiz:{
+    q:"计算机用来“思考”的符号系统，是哪一套？",
+    opts:["0 和 1","1 到 9","A 到 Z"], ans:0,
+    why:"计算机的一切运算，本质上都在处理 0 和 1——这正是二进制的力量，也是布尔代数把“对/错”写成 0/1 的结果。"
+  },
+  task:"上课设计自己的编码方案之前，先想想：只用两种符号，怎么表示所有的汉字？",
+  parent:"让孩子猜：身份证最后一位数字是干嘛的？（校验码——用前面 17 位算出来的。）"
+},
+{
+  id:11, no:"⑪", title:"综合实践 · 导航", sub:"定位，从星图到卫星",
+  time:"期末前后", hook:"手机怎么知道“你在哪”？——追到源头，是两千年前人们盯着星星量角度。",
+  story:[
+    {tag:"起源", h:"角与位置，从一开始就绑定", p:[
+      "最早的天文定位靠角度：喜帕恰斯把天球分成 360 度、用弦表测角（《这才是好读的数学史》正弦篇）。到了 17 世纪，笛卡尔与费马把“位置”交给坐标——伽莫夫《从一到无穷大》用“向南 5 街区、右转 2 街区、上 7 层楼”说明三个数即可定位一点，这就是经纬度的思想原型。"
+    ], facts:["喜帕恰斯", "坐标定位"]},
+    {tag:"现代", h:"GPS / 北斗：把“速度×时间=路程”送上太空", p:[
+      "现代卫星导航把这一切送上轨道：卫星持续广播“我在哪、现在是几点”，手机测出信号飞行时间，用第七单元的“速度×时间=路程”算出到每颗卫星的距离，再由数颗卫星“交会”确定位置。",
+      "1957 年苏联发射第一颗人造卫星后，科学家发现可借多普勒效应反推卫星位置，GPS 由此起步；中国的北斗则从 1994 年走到全球组网。"
+    ], facts:["速度×时间=路程", "1957 卫星", "北斗 1994"]},
+    {tag:"深一层", h:"导航背后，是相对论时代的时空观", p:[
+      "伽莫夫《从一到无穷大》第五章还提示了更深的一层：当速度接近光速、空间发生弯曲时，坐标本身要“变换”才能自洽——导航背后，是相对论时代才真正澄清的时空观。",
+      "课本让孩子拿着秒表去验证“导航给的时间准不准”，正是把这条绵延两千年的定位史，落回一次真实的测量。"
+    ], facts:["相对论", "时空观"]}
+  ],
+  quiz:{
+    q:"卫星帮你定位，用到了本学期哪一个公式？",
+    opts:["速度×时间=路程","单价×数量=总价","长方形周长公式"], ans:0,
+    why:"手机测出信号从卫星飞来的时间，乘以光速，就得到距离——多个距离一“交会”，你的位置就确定了。"
+  },
+  task:"上课前自己先做一次实验：拿秒表验证手机导航说的时间，到底准不准？",
+  parent:"出门看导航时问：“卫星要用哪几个公式，才能找到我们？”——把第七单元“接”到真实生活。"
+}
+];
+
+var TL = [
+  ["约公元前 3500 年","苏美尔泥板记数，六十进制登场","②"],
+  ["约公元前 600 年","泰勒斯：演绎几何之父，几何开始被“证明”","②"],
+  ["约公元前 300 年","欧几里得编《几何原本》：13 卷 465 命题","②"],
+  ["约公元前 250 年","阿基米德写《数沙者》：写下大数","①"],
+  ["约公元前 150 年","喜帕恰斯把天球分成 360 度，制弦表","②"],
+  ["约公元 250 年","丢番图《算术》：开始用符号","⑤"],
+  ["约公元 600 年","印度人用“小圆圈”表示零","①"],
+  ["约公元 825 年","花拉子米《还原与对消》：al-jabr→代数","⑤"],
+  ["1544 年","斯蒂菲尔写下等差/等比两组数列","③"],
+  ["1590 年代","纳皮尔发明对数，造骨算筹","③"],
+  ["1600 年前后","韦达（密码专家）用字母写方程","⑤"],
+  ["1630 年","费马用坐标描绘两个量的关系","④⑧"],
+  ["1637 年","笛卡尔《几何学》：x、y、z 与指数","④⑤"],
+  ["1642 年","帕斯卡为帮父亲算账，造加法器","③"],
+  ["1662 年","格雷特整理伦敦丧葬记录：统计诞生","⑨"],
+  ["1671 年","莱布尼茨步进计算器（二进制）","③⑩"],
+  ["1693 年","哈雷编制死亡率表：精算科学起步","⑨"],
+  ["1713 年","伯努利《推测术》：统计与概率系统化","⑨"],
+  ["1736 年","欧拉破解七桥问题：图论诞生","⑥"],
+  ["1750 年前后","欧拉公式 V−E+F=2","⑥⑦"],
+  ["1786 年","普莱费尔发明条形图/折线图/饼图","⑨"],
+  ["19 世纪","布尔代数：把逻辑写成 0/1","⑩"],
+  ["1858 年","莫比乌斯环被提出","⑦"],
+  ["1905 年后","爱因斯坦相对论：弯曲的时空","⑪"],
+  ["1948 年","香农创立信息论","⑩"],
+  ["1957 年","苏联发射第一颗人造卫星","⑪"],
+  ["1994 年","中国北斗系统起步","⑪"]
+];
+
+/* ===== 打印版要点（每单元浓缩 3-4 条） ===== */
+var PRINT = {
+ 1:["霍屯督部落的语言里没有比 3 更大的数词；古罗马人写“一百万”要连写 1000 个 M。","十进位值制被拉普拉斯称为“人类最伟大的发明之一”，最大的功臣是“零”。","梵语 sunya（空）→ 阿拉伯语 sifr → zero 与 cipher：“零”和“密码”本是同一个词。","阿基米德《数沙者》：能写出比填满整个宇宙的沙粒还大的数。"],
+ 2:["一圈 360 度来自古巴比伦的六十进制——60 因数多、方便等分。","喜帕恰斯把天球分成 360 度，角与“定位”从一开场就绑在一起。","欧几里得《几何原本》13 卷 465 个命题，统治几何两千年。","平行线悬案拖了两千年，直到非欧几何与爱因斯坦的弯曲时空。"],
+ 3:["“算得快”是一场三千年的工具接力：算盘 → 骨算筹 → 计算尺 → 帕斯卡加法器 → 莱布尼茨机器。","帕斯卡 19 岁，为了帮当税务官的父亲算账，造出了计算器。","斯蒂菲尔与纳皮尔发明对数：把“乘除”变成“加减”，给天文学家减负。"],
+ 4:["“换个角度看物体”，在数学里叫射影几何。","费马与笛卡尔把“看”变成“算”：坐标诞生，通往 CT 扫描与计算机动画。","今天常用的直角坐标系，其实不是笛卡尔画的——一个半世纪后才定型。"],
+ 5:["曾几何时，方程全靠文字写：花拉子米的 al-jabr，变成了今天的 algebra。","韦达是密码破译专家，用字母代换未知数；笛卡尔定下 x、y、z。","哈代：数学是对“显然之事”给出证明——减法就不满足交换律。"],
+ 6:["1736 年，欧拉解哥尼斯堡七桥：把桥变线、陆地变点，开创了图论。","“数图形”通向漂亮定理 V−E+F=2。","哈代：数学是“真正的游戏”——用最少的规则推出最深的结论。"],
+ 7:["世界上“正”得完美的立体只有 5 种（柏拉图立体）。","任何立体都满足 V−E+F=2：顶点、棱、面之间恒有不变关系。","切豆腐看截面 = CT 扫描的原理；莫比乌斯环沿中线剪开，是一个更大的环。"],
+ 8:["麦粒棋盘：每格翻倍，第 64 格共 2⁶⁴−1 粒，够全世界吃 2000 年。","费马：“两个变量的方程定义一条曲线”——函数思想的种子。","速度×时间=路程、单价×数量=总价：同一个线性模型的不同投影。"],
+ 9:["1662 年，格雷特整理伦敦的丧葬记录：统计从“政治算术”诞生。","哈雷 1693 年编制死亡率表，精算科学由此起步。","普莱费尔 1786 年发明条形图、折线图、饼图——“图比表格更会说话”。"],
+ 10:["“零”与“密码”同源（zero=cipher），编码与记数同一条血脉。","莱布尼茨的机器用二进制运行——现代计算机语言的基础。","布尔把“对/错”写成 0/1；香农 1948 年创立信息论。"],
+ 11:["最早的定位靠角度：喜帕恰斯把天球分成 360 度。","卫星广播“我在哪、几点”，手机用“速度×时间=路程”算距离，再交会定位。","1957 年苏联卫星、1994 年北斗起步；导航背后是相对论的时空观。"]
+};
+
+/* ===== 状态 ===== */
+var store = {
+  get explored(){ return JSON.parse(localStorage.getItem("ma_explored")||"[]"); },
+  set explored(v){ localStorage.setItem("ma_explored", JSON.stringify(v)); },
+  add(id){ var e=this.explored; if(e.indexOf(id)<0){e.push(id);this.explored=e;} try{ var m=JSON.parse(localStorage.getItem("ws_math")||"[]"); if(m.indexOf("m:"+id)<0){m.push("m:"+id);localStorage.setItem("ws_math",JSON.stringify(m));} }catch(err){} },
+  has(id){ return this.explored.indexOf(id)>=0; }
+};
+var app = document.getElementById("app");
+var stampEl = document.getElementById("stampBig");
+
+/* ===== 工具 ===== */
+function el(html){ var d=document.createElement("div"); d.innerHTML=html.trim(); return d.firstChild; }
+function svgChevron(){ return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 6 15 12 9 18"/></svg>'; }
+function svgBack(){ return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>'; }
+function svgStamp(){ return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M8.5 12.5l2.5 2.5 4.5-5"/></svg>'; }
+function svgExt(){ return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>'; }
+
+/* ===== 渲染：首页 ===== */
+function renderHome(){
+  var n = UNITS.length, done = UNITS.filter(function(u){return store.has(u.id)}).length;
+  var stations = UNITS.map(function(u){
+    var isDone = store.has(u.id);
+    var stamp = isDone ? '<div class="stamp stamp-done"><span>已探</span></div>' : '';
+    return '<a class="station" href="#/u/'+u.id+'" data-id="'+u.id+'">'+
+      '<div class="cover">'+
+        '<span class="no-badge">'+u.no+'</span>'+
+        '<span class="time-tag">'+u.time+'</span>'+
+        '<img src="'+IMG[u.id]+'" alt="'+u.title+'">'+stamp+
+      '</div>'+
+      '<div class="body">'+
+        '<h3>'+u.title+'</h3>'+
+        '<p class="hook">'+u.hook+'</p>'+
+        '<div class="foot">'+
+          '<span class="go">进入探险 '+svgChevron()+'</span>'+
+          '<span style="font-size:12px;color:rgba(38,51,46,.5)">'+(isDone?'<span style="color:var(--rust)">已盖章</span>':'未探索')+'</span>'+
+        '</div>'+
+      '</div>'+
+    '</a>';
+  }).join("");
+
+  app.innerHTML =
+    '<section class="hero">'+
+      '<img class="hero-img" src="'+IMG.hero+'" alt="数学史探险地图">'+
+      '<div class="hero-scrim"></div>'+
+      '<div class="hero-body">'+
+        '<span class="kicker">北师大版 · 四年级上册 · 2026 秋</span>'+
+        '<h1>把数学史装进<br><em>上课前的 10 分钟</em></h1>'+
+        '<p class="lead">每个单元开讲之前，先来这里探一站：一个大大的好奇问题、一段真正发生过的数学史、一个让你动脑的思考题。带着问题去上课，你会忽然发现——课本里全是老朋友。</p>'+
+        '<div class="meta-row">'+
+          '<span class="chip">探险站 <b>'+n+' 站</b></span>'+
+          '<span class="chip">已盖章 <b>'+done+' / '+n+'</b></span>'+
+          '<span class="chip">适合 <b>课前 5–10 分钟</b></span>'+
+        '</div>'+
+      '</div>'+
+    '</section>'+
+    '<section class="howto wrap">'+
+      '<h2 class="sec-title">怎么玩</h2>'+
+      '<div class="howto-grid">'+
+        '<div class="howto-card"><div class="step-no">壹</div><h3>上课前，先探一站</h3><p>按课本顺序点开对应单元，读一个大问题、听一段真故事。</p></div>'+
+        '<div class="howto-card"><div class="step-no">贰</div><h3>想一想，再带着问题去上课</h3><p>回答思考题，记住“上课要留意什么”，去课本里找答案。</p></div>'+
+        '<div class="howto-card"><div class="step-no">叁</div><h3>上完课，回来盖章</h3><p>站在“已经见过它背后的故事”的高度，回来看课本，盖章打卡。</p></div>'+
+      '</div>'+
+    '</section>'+
+    '<section class="journey wrap">'+
+      '<h2 class="sec-title">本学期探险路径</h2>'+
+      '<div class="path"><div class="path-line"></div>'+stations+'</div>'+
+    '</section>'+
+    '<section class="tl wrap">'+
+      '<div style="text-align:center;margin:10px 0 6px;display:flex;gap:14px;justify-content:center;flex-wrap:wrap">'+
+        '<a href="#/timeline" class="btn-primary" style="background:var(--teal);box-shadow:0 8px 20px rgba(31,58,58,.28)">打开全册数学史时间轴 '+svgChevron()+'</a>'+
+        '<a href="#/print" class="btn-primary">打印探险手册 '+svgChevron()+'</a>'+
+      '</div>'+
+    '</section>'+
+    '<section class="parents wrap">'+
+      '<div class="parents-card">'+
+        '<h2>给家长的三句话</h2>'+
+        '<ul>'+
+          '<li>数学史是“调味料”，不是“正餐”：每次 5–10 分钟就够，绝不替代作业和练习。</li>'+
+          '<li>不考、不要求记住人名年份；孩子只要“哇”了一下、多问了一句“为什么”，就成功了。</li>'+
+          '<li>讲的人不必是专家，只需要“知道一点点、但讲得津津有味”——孩子记住的，往往是你讲它时眼睛发亮的样子。</li>'+
+        '</ul>'+
+      '</div>'+
+    '</section>'+
+    '<p class="foot-note">史实底本：伽莫夫《从一到无穷大》· 伯林霍夫&辜维亚《这才是好读的数学史》· 哈代《一个数学家的辩白》　·　进度以学校安排为准</p>';
+  updateProgress();
+}
+
+/* ===== 渲染：单元详情 ===== */
+function renderUnit(id){
+  var u = UNITS.find(function(x){return x.id===id});
+  if(!u){ location.hash="#/"; return; }
+  var isDone = store.has(id);
+  var facts = function(list){ return list.map(function(f){return '<span class="fact">'+f+'</span>'}).join(""); };
+  var stories = u.story.map(function(s){
+    return '<div class="story-sec"><h3><span class="tag">'+s.tag+'</span>'+s.h+'</h3>'+
+      s.p.map(function(p){return '<p>'+p+'</p>'}).join("")+
+      '<div class="fact-row">'+facts(s.facts)+'</div></div>';
+  }).join("");
+
+  app.innerHTML =
+    '<section class="unit-hero">'+
+      '<a class="back" href="#/">'+svgBack()+' 返回地图</a>'+
+      '<img src="'+IMG[id]+'" alt="'+u.title+'">'+
+      '<div class="scrim"></div>'+
+      '<div class="cap">'+
+        '<h1>'+u.no+'　'+u.title+'</h1>'+
+        '<p class="sub">'+u.sub+'</p>'+
+        '<div class="meta-line">'+
+          '<span class="chip">学校进度：'+u.time+'</span>'+
+          '<span class="chip" id="doneChip">'+(isDone?'已盖章':'未盖章')+'</span>'+
+        '</div>'+
+      '</div>'+
+    '</section>'+
+    '<div class="stage-wrap" id="stageWrap"></div>';
+
+  var wrap = document.getElementById("stageWrap");
+  var acts = [
+    {label:"好奇钩子", body:
+      '<div class="hook-box"><h2>'+u.hook+'</h2><p class="hint">先自己想一想，别急着往下翻——带着这个问题去读下面的故事。</p></div>'},
+    {label:"背后的故事", body: stories},
+    {label:"想一想", body:
+      '<div class="quiz-box"><div class="q">'+u.quiz.q+'</div><p class="q-sub">点选一个答案，看看你的判断。</p>'+
+      '<div class="quiz-opts">'+
+        u.quiz.opts.map(function(o,i){return '<button class="quiz-opt" data-i="'+i+'"><span class="k">'+String.fromCharCode(65+i)+'</span><span>'+o+'</span></button>'}).join("")+
+      '</div><div class="quiz-why" id="quizWhy"><b>解析：</b>'+u.quiz.why+'</div></div>'},
+    {label:"带着问题去上课", body:
+      '<div class="goclass"><h3>上课小任务</h3><p>'+u.task+'</p>'+
+      '<div class="parent-note"><b>给家长：</b>'+u.parent+'</div></div>'},
+    {label:"想深入 · 资源库", body:
+      '<div class="res-box"><p class="res-intro">如果你还想探索更多，可以去看一看这些——纪录片和动画，点开就能看；绘本和书，可以请爸爸妈妈帮你找来读。走，往更深处探一探！</p>'+
+      '<div class="res-grid">'+ (RES[u.id]||[]).map(resCard).join("") +'</div></div>'}
+  ];
+  var cur = 0;
+  var quizDone = false;
+
+  function resCard(r){
+    return '<div class="res-card"><span class="rt">'+r.t+'</span><h4>'+r.n+'</h4><p>'+r.d+'</p>'+
+      (r.u?'<a href="'+r.u+'" target="_blank" rel="noopener">去看 / 去读 '+svgExt()+'</a>':'')+'</div>';
+  }
+
+  function renderAct(){
+    var act = acts[cur];
+    var dots = acts.map(function(a,i){return '<span class="dot'+(i<=cur?' on':'')+'"></span>'}).join("");
+    var bar = '<div class="bar"><i style="width:'+((cur+1)/acts.length*100)+'%"></i></div>';
+    var navBtns;
+    if(cur < acts.length-1){
+      navBtns = '<div class="act-nav"><span></span><button class="btn-primary" id="nextBtn">进入下一幕 '+svgChevron()+'</button></div>';
+    } else {
+      navBtns = '<div class="act-nav"><span></span>'+
+        (isDone
+          ? '<button class="btn-primary" style="background:var(--moss)" id="stampBtn">'+svgStamp()+' 已盖章 · 再探一次</button>'
+          : '<button class="btn-primary" id="stampBtn" style="background:var(--amber)">'+svgStamp()+' 完成探险，盖章</button>')+
+        '</div>';
+    }
+    wrap.innerHTML =
+      '<div class="acts-progress">'+dots+bar+'</div>'+
+      '<div class="act"><div class="act-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l2.4 4.8L19.6 8l-3.8 3.7.9 5.3L12 14.8 7.3 17l.9-5.3L4.4 8l5.2-1.2z"/></svg>'+cur+1+' · '+act.label+'</div>'+act.body+'</div>'+
+      navBtns;
+
+    var nb = document.getElementById("nextBtn");
+    if(nb) nb.addEventListener("click", function(){ cur++; renderAct(); window.scrollTo({top:wrap.offsetTop-60,behavior:"smooth"}); });
+    var sb = document.getElementById("stampBtn");
+    if(sb) sb.addEventListener("click", doStamp);
+    if(cur===2) bindQuiz();
+  }
+
+  function bindQuiz(){
+    var opts = wrap.querySelectorAll(".quiz-opt");
+    var why = document.getElementById("quizWhy");
+    opts.forEach(function(b){
+      b.addEventListener("click", function(){
+        if(quizDone) return;
+        quizDone = true;
+        var i = parseInt(b.getAttribute("data-i"),10);
+        opts.forEach(function(o,oi){
+          if(oi===i){ o.classList.add(o.getAttribute("data-i")==u.quiz.ans?"correct":"wrong"); }
+          else o.classList.add("dim");
+        });
+        why.classList.add("show");
+      });
+    });
+  }
+
+  function doStamp(){
+    if(!quizDone && cur<2){ cur=2; renderAct(); return; } /* 未答题：先跳到想一想 */
+    store.add(id);
+    stampEl.classList.add("show");
+    setTimeout(function(){ stampEl.classList.remove("show"); renderUnit(id); }, 1300);
+  }
+
+  renderAct();
+  window.scrollTo({top:0,behavior:"auto"});
+}
+
+/* ===== 渲染：时间轴 ===== */
+function renderTimeline(){
+  var items = TL.map(function(t){
+    var tag = t[2].split("").map(function(c){return '<span class="u" data-u="'+UNITS.findIndex(function(x){return x.no===c})+'">'+c+'</span>'}).join("");
+    return '<div class="tl-item"><div class="y">'+t[0]+'</div><div class="t">'+t[1]+'</div>'+tag+'</div>';
+  }).join("");
+  app.innerHTML =
+    '<section class="tl wrap">'+
+      '<div class="tl-head"><h2>全册数学史时间轴</h2><p>从泥板记数到卫星导航——这学期每一站的故事，在人类历史中的坐标</p></div>'+
+      '<a href="#/" class="btn-ghost" style="margin-top:18px;display:inline-flex;align-items:center;gap:7px">'+svgBack()+' 返回探险地图</a>'+
+      '<div class="tl-line">'+items+'</div>'+
+      '<p class="tl-legend">点击右侧单元编号，可跳回对应探险站</p>'+
+    '</section>';
+  app.querySelectorAll(".tl-item .u").forEach(function(s){
+    s.addEventListener("click", function(){
+      var idx = parseInt(s.getAttribute("data-u"),10);
+      if(idx>=0 && idx<UNITS.length) location.hash = "#/u/"+UNITS[idx].id;
+    });
+  });
+}
+
+/* ===== 渲染：打印手册 ===== */
+function renderPrint(){
+  var pages = UNITS.map(function(u){
+    var pts = PRINT[u.id].map(function(p){return '<li>'+p+'</li>'}).join("");
+    return '<section class="print-page">'+
+      '<div class="pu-head"><span class="no">'+u.no+'</span><h2>'+u.title+'</h2><span class="tm">'+u.time+'</span></div>'+
+      '<img class="pu-pic" src="'+IMG[u.id]+'" alt="">'+
+      '<div class="pu-hook">'+u.hook+'</div>'+
+      '<div class="pu-points"><h3>故事要点</h3><ul>'+pts+'</ul></div>'+
+      '<div class="pu-think"><div class="q">想一想：'+u.quiz.q+'</div>'+
+        '<div class="opts">'+u.quiz.opts.map(function(o,i){return '<span><b>'+String.fromCharCode(65+i)+'.</b> '+o+'</span>'}).join("")+'</div>'+
+        '<div class="pu-answer">答案：'+String.fromCharCode(65+u.quiz.ans)+'（'+u.quiz.why+'）</div></div>'+
+      '<div class="pu-task"><h3>上课小任务</h3><p>'+u.task+'</p></div>'+
+      '<div class="pu-foot"><div class="stamp-ring">上完课<br>盖一枚章</div><div class="pu-parent"><b>给家长：</b>'+u.parent+'</div></div>'+
+    '</section>';
+  }).join("");
+  var tl = TL.map(function(t){return '<div class="it"><span class="y">'+t[0]+'</span><span>'+t[1]+'</span></div>'}).join("");
+  app.innerHTML =
+    '<div class="print-toolbar"><div class="print-toolbar-inner">'+
+      '<a class="btn-ghost" href="#/">← 返回地图</a><span class="t">可打印探险手册</span>'+
+      '<button class="btn-print no-print" id="doPrint">打印 / 存为 PDF</button>'+
+    '</div></div>'+
+    '<div class="print-wrap">'+
+      '<section class="print-page print-cover">'+
+        '<img class="cover-pic" src="'+IMG.hero+'" alt="">'+
+        '<h1>四上数学 · 课前探险手册</h1>'+
+        '<p class="sub">11 站数学史 · 每单元一页 · 上课前读一读，上完课盖个章</p>'+
+        '<div class="print-steps">'+
+          '<div class="s"><b>壹 · 上课前</b>和孩子读“好奇钩子”与“故事要点”，先猜后听。</div>'+
+          '<div class="s"><b>贰 · 想一想</b>让孩子先口答思考题，家长再念答案核对。</div>'+
+          '<div class="s"><b>叁 · 上完课</b>在右下角圆圈里亲手盖一枚章（或画一个）。</div>'+
+        '</div>'+
+      '</section>'+
+      pages+
+      '<section class="print-page">'+
+        '<div class="pu-head"><span class="no">Ⓣ</span><h2>全册数学史时间轴</h2></div>'+
+        '<p style="font-size:13px;color:rgba(38,51,46,.6)">从泥板记数到卫星导航：把整学期的故事串成一条人类史。</p>'+
+        '<div class="tl-print">'+tl+'</div>'+
+      '</section>'+
+    '</div>';
+  document.getElementById("doPrint").addEventListener("click", function(){ window.print(); });
+  window.scrollTo({top:0,behavior:"auto"});
+}
+
+/* ===== 进度条 ===== */
+function updateProgress(){
+  var n = UNITS.length, done = UNITS.filter(function(u){return store.has(u.id)}).length;
+  document.getElementById("miniNum").textContent = done+"/"+n;
+  document.getElementById("miniFill").style.width = (done/n*100)+"%";
+}
+
+/* ===== 路由 ===== */
+function router(){
+  var h = location.hash || "#/";
+  if(h.indexOf("#/u/")===0){ var id = parseInt(h.slice(4),10); renderUnit(id); }
+  else if(h==="#/timeline"){ renderTimeline(); }
+  else if(h==="#/print"){ renderPrint(); }
+  else { renderHome(); }
+  window.scrollTo({top:0,behavior:"auto"});
+}
+window.addEventListener("hashchange", router);
+router();
+</script>
+</body>
+</html>

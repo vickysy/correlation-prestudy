@@ -465,7 +465,7 @@ function renderHome(){
       '<div class="tj-main"><div class="tj-tag">✦ 今日旅程 · '+esc(nj.theme)+'</div><div class="tj-title">'+esc(nj.hook||nj.title)+'</div><div class="tj-sub">'+esc(nj.title)+' —— 先探一站，再带着问题去上课</div></div>'+
       '<div class="tj-btn">出发 →</div></div>';
   } else if(nj&&nj.type==="math"){
-    journey='<div class="today-journey" onclick="window.open(\'../math-adventure/index.html#/u/'+nj.id+'\',\'_blank\')">'+
+    journey='<div class="today-journey" onclick="window.open(\'math-adventure/index.html#/u/'+nj.id+'\',\'_blank\')">'+
       '<div class="tj-main"><div class="tj-tag">✦ 今日旅程 · '+esc(nj.title)+'</div><div class="tj-title">'+esc(nj.hook||nj.title)+'</div><div class="tj-sub">'+esc(nj.title)+' —— 先探一站，再带着问题去上课</div></div>'+
       '<div class="tj-btn">出发 →</div></div>';
   } else {
@@ -618,7 +618,7 @@ function renderCosmos(){
     var tm=tagInfo(k.tag);
     var open=(k.type==="c")
       ? "openLesson('chinese',"+k.ui+","+k.li+")"
-      : "window.open('../math-adventure/index.html#/u/"+k.id+"','_blank')";
+      : "window.open('math-adventure/index.html#/u/"+k.id+"','_blank')";
     var doneB=k.done?'<div class="k-done">✦ 探索过</div>':'';
     return '<div class="k-card'+(k.done?" done":"")+'" onclick="'+open+'">'+
       '<div class="k-ic">'+tm.icon+'</div>'+
