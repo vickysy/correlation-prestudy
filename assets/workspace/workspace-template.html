@@ -60,11 +60,11 @@
   .galaxy-title{font-size:16px;font-weight:700;letter-spacing:1px;}
   .galaxy-sub{font-size:12px;color:#AFC4CD;margin-top:4px;}
   .engine-row{display:flex;flex-wrap:wrap;gap:12px;margin-top:18px;}
-  .engine{flex:1 1 160px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.14);border-radius:14px;padding:14px;min-width:0;cursor:pointer;transition:.15s;}
-  .engine:hover{border-color:var(--gold);background:rgba(255,255,255,.1);}
-  .engine .ei{font-size:21px;}
-  .engine .en{font-weight:700;font-size:13px;margin-top:6px;display:block;}
-  .engine .ed{font-size:10.5px;color:#AFC4CD;margin-top:3px;line-height:1.6;}
+  .engine{flex:1 1 160px;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px 18px;min-width:0;cursor:pointer;transition:.15s;box-shadow:var(--shadow);}
+  .engine:hover{border-color:var(--gold);transform:translateY(-2px);}
+  .engine .ei{width:40px;height:40px;border-radius:12px;background:var(--chip);display:flex;align-items:center;justify-content:center;font-size:21px;}
+  .engine .en{font-weight:700;font-size:14px;margin-top:10px;display:block;color:var(--ink);}
+  .engine .ed{font-size:11px;color:var(--ink3);margin-top:4px;line-height:1.6;}
   .wheel{margin-top:16px;background:rgba(255,255,255,.05);border-radius:12px;padding:11px 15px;display:flex;align-items:center;gap:9px;flex-wrap:wrap;}
   .wheel b{font-size:12px;color:#FFF3D6;}
   .wheel-step{font-size:11px;color:#C9DBE0;padding:3px 11px;border:1px dashed #5C8096;border-radius:999px;}
@@ -94,13 +94,13 @@
   .mascot-bubble{position:relative;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);border-radius:16px;padding:10px 16px;font-size:13px;color:#F6EFE0;line-height:1.6;}
   .mascot-bubble::before{content:"";position:absolute;left:-6px;bottom:14px;border:6px solid transparent;border-right-color:rgba(255,255,255,.2);}
   .hero h1{font-family:var(--serif,"Songti SC","STSong","SimSun",serif);font-weight:900;font-size:clamp(30px,4.6vw,50px);line-height:1.18;letter-spacing:1px;color:#F6EFE0;margin:0;}
-  .today-journey{margin-top:20px;border-radius:16px;padding:18px 20px;display:flex;align-items:center;gap:16px;flex-wrap:wrap;cursor:pointer;background:linear-gradient(120deg,rgba(255,197,49,.28),rgba(255,197,49,.08));border:1px solid rgba(255,197,49,.55);transition:.18s;}
-  .today-journey:hover{transform:translateY(-2px);border-color:var(--gold);background:linear-gradient(120deg,rgba(255,197,49,.36),rgba(255,197,49,.14));}
-  .tj-main{flex:1 1 260px;min-width:0;}
-  .tj-tag{font-size:10px;font-weight:700;letter-spacing:2px;color:#FFF3D6;}
-  .tj-title{font-size:17px;font-weight:800;color:#FFF6E6;margin-top:4px;line-height:1.5;}
-  .tj-sub{font-size:11.5px;color:#C9DBE0;margin-top:3px;line-height:1.6;}
-  .tj-btn{flex:0 0 auto;background:linear-gradient(135deg,#FFC531,#FF9F1C);color:#12293F;font-weight:800;font-size:13px;padding:11px 22px;border-radius:99px;box-shadow:0 6px 20px rgba(255,159,28,.45);}
+  .today-journey{border-radius:18px;padding:24px 28px;display:flex;align-items:center;gap:22px;flex-wrap:wrap;cursor:pointer;background:var(--card);border:1px solid var(--line);border-left:5px solid var(--gold);box-shadow:var(--shadow);transition:.18s;}
+  .today-journey:hover{transform:translateY(-2px);border-color:var(--gold);box-shadow:0 10px 26px rgba(58,46,34,.13);}
+  .tj-main{flex:1 1 300px;min-width:0;}
+  .tj-tag{display:inline-block;font-size:11px;font-weight:800;letter-spacing:1.5px;color:var(--orange);background:var(--gold2);padding:4px 12px;border-radius:99px;margin-bottom:12px;}
+  .tj-title{font-family:var(--serif);font-size:clamp(19px,2.4vw,26px);font-weight:900;color:var(--ink);line-height:1.45;}
+  .tj-sub{font-size:12.5px;color:var(--ink3);margin-top:10px;line-height:1.75;}
+  .tj-btn{flex:0 0 auto;background:linear-gradient(135deg,var(--gold),var(--orange));color:#fff;font-weight:800;font-size:15px;padding:13px 30px;border-radius:99px;box-shadow:0 6px 18px rgba(201,138,46,.32);white-space:nowrap;}
   .galaxy-legend{margin-top:14px;font-size:11px;color:#8FB0C0;letter-spacing:.5px;}
   .galaxy-legend b{color:#FFD166;font-size:12px;}
   /* 星图星球化 */
@@ -118,6 +118,20 @@
   .howto-card p{font-size:11.5px;color:var(--ink3);line-height:1.75;margin:0;}
   .modules .engine{flex:1 1 172px;}
   .modules .engine .ed{min-height:30px;}
+  /* ===== 首页问候 + 星空进度卡 ===== */
+  .home-hi{display:flex;align-items:center;gap:13px;margin-bottom:18px;}
+  .home-hi .mascot-svg{width:46px;height:46px;flex-shrink:0;animation:floaty 3s ease-in-out infinite;filter:drop-shadow(0 4px 10px rgba(201,138,46,.28));}
+  .home-hi .hi-text{font-size:15px;color:var(--ink2);font-weight:600;line-height:1.6;}
+  .home-hi .hi-text b{color:var(--ink);}
+  .home-hi .hi-text .accent{color:var(--gold);font-family:var(--serif);font-weight:700;}
+  .sky-card{background:linear-gradient(160deg,#13293D,#0E2235);border-radius:18px;padding:16px 20px 8px;color:#EDF3EE;margin-top:20px;box-shadow:var(--shadow);}
+  .sky-head{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;}
+  .sky-title{font-size:14px;font-weight:700;letter-spacing:.5px;display:flex;align-items:center;gap:7px;}
+  .sky-title .star{color:#FFD166;font-size:15px;}
+  .sky-count{font-size:12px;color:#AFC4CD;}
+  .sky-count b{color:#FFD166;}
+  .sky-svg{max-width:560px;margin:6px auto 0;}
+  .sky-hint{font-size:10.5px;color:#7E9FB3;text-align:center;line-height:1.7;padding:4px 8px;}
   /* ===== 知识宇宙 ===== */
   .subj-row{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px;}
   .pill{border:1px solid var(--line);background:var(--card);padding:8px 18px;border-radius:999px;font-size:13px;color:var(--ink2);cursor:pointer;font-family:inherit;}
@@ -460,26 +474,22 @@ function renderHome(){
       '<div class="tj-btn">去逛 →</div></div>';
   }
   app(
-  '<section class="hero">'+
-    '<div class="mascot">'+
-      '<svg class="mascot-svg" viewBox="0 0 72 72">'+
-        '<path d="M36 6 L44 24 L64 26 L49 39 L54 58 L36 48 L18 58 L23 39 L8 26 L28 24 Z" fill="#FFD166" stroke="#FFB020" stroke-width="2" stroke-linejoin="round"/>'+
-        '<circle cx="27" cy="36" r="3.2" fill="#12293F"/><circle cx="45" cy="36" r="3.2" fill="#12293F"/>'+
-        '<path d="M29 45 Q36 51 43 45" stroke="#12293F" stroke-width="2.2" fill="none" stroke-linecap="round"/>'+
-        '<circle cx="21" cy="42" r="3" fill="#E89A9A" opacity=".55"/><circle cx="51" cy="42" r="3" fill="#E89A9A" opacity=".55"/>'+
-      '</svg>'+
-      '<div class="mascot-bubble">嗨，'+(SITE&&SITE.name||"我")+'！<br>今天想先去哪里看看？</div>'+
+  '<div class="home-hi">'+
+    '<svg class="mascot-svg" viewBox="0 0 72 72">'+
+      '<path d="M36 6 L44 24 L64 26 L49 39 L54 58 L36 48 L18 58 L23 39 L8 26 L28 24 Z" fill="#FFD166" stroke="#FFB020" stroke-width="2" stroke-linejoin="round"/>'+
+      '<circle cx="27" cy="36" r="3.2" fill="#12293F"/><circle cx="45" cy="36" r="3.2" fill="#12293F"/>'+
+      '<path d="M29 45 Q36 51 43 45" stroke="#12293F" stroke-width="2.2" fill="none" stroke-linecap="round"/>'+
+    '</svg>'+
+    '<div class="hi-text">嗨，<b>'+(SITE&&SITE.name||"我")+'</b>！今天先探一站——<span class="accent">把好奇心，装满一整年</span></div>'+
+  '</div>'+
+  journey+
+  '<section class="sky-card">'+
+    '<div class="sky-head">'+
+      '<div class="sky-title"><span class="star">✦</span> 我的星空</div>'+
+      '<div class="sky-count">已点亮 <b>'+lit+'</b> 颗星 · 连出 <b>'+links+'</b> 条线</div>'+
     '</div>'+
-    '<h1>把好奇心，<br><em>装满一整年</em></h1>'+
-    journey+
-    '<div class="galaxy-svg"><svg id="galaxySvg" viewBox="0 0 660 450" style="width:100%;height:auto;display:block;"></svg></div>'+
-    '<div class="galaxy-legend">我的星系 · 已点亮 <b>'+lit+' 颗星</b> · 连出 <b>'+links+' 条线</b> · 每探索一课，这里就亮一颗</div>'+
-    '<div class="pick-today">'+
-      '<div class="tp">或者，自己去宇宙里逛：</div>'+
-      '<div class="tp-card" onclick="go(\'cosmos\')">🌌 知识宇宙</div>'+
-      '<div class="tp-card" onclick="go(\'profile\')">📖 我的档案</div>'+
-      '<div class="tp-card" onclick="go(\'works\')">🚀 我的作品</div>'+
-    '</div>'+
+    '<div class="sky-svg"><svg id="galaxySvg" viewBox="0 0 660 450" style="width:100%;height:auto;display:block;"></svg></div>'+
+    '<div class="sky-hint">每探索一课，这里就亮一颗 —— 点亮的都是你自己长的本事</div>'+
   '</section>'+
   '<section class="modules wrap">'+
     '<h2 class="sec-title">我的房间</h2>'+
