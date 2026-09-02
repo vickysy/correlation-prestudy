@@ -383,8 +383,8 @@ function applySite(){
 
 /* ======== 状态 ======== */
 var SUBJECTS = {
-  chinese: { name:"语文", version:"人教版 · 四年级上册", units: CHINESE_UNITS, kind:"lesson" },
-  math: { name:"数学", version:"北师大版 · 四年级上册", units: MATH_UNITS, kind:"unit" }
+  chinese: { name:"语文", version:"人教版", units: CHINESE_UNITS, kind:"lesson" },
+  math: { name:"数学", version:"北师大版", units: MATH_UNITS, kind:"unit" }
 };
 /* ======== 星座映射：知识星系 ======== */
 var CONSTELLATIONS = [
@@ -474,7 +474,7 @@ function renderHome(){
       '<div class="tj-main"><div class="tj-tag">✦ 今日旅程 · '+esc(nj.theme)+'</div><div class="tj-title">'+esc(nj.hook||nj.title)+'</div><div class="tj-sub">'+esc(nj.title)+' —— 先探一站，再带着问题去上课</div></div>'+
       '<div class="tj-btn">出发 →</div></div>';
   } else if(nj&&nj.type==="math"){
-    journey='<div class="today-journey" onclick="window.open(\'math-adventure/index.html#/u/'+nj.id+'\',\'_blank\')">'+
+    journey='<div class="today-journey" onclick="openMath('+nj.id+')">'+
       '<div class="tj-main"><div class="tj-tag">✦ 今日旅程 · '+esc(nj.title)+'</div><div class="tj-title">'+esc(nj.hook||nj.title)+'</div><div class="tj-sub">'+esc(nj.title)+' —— 先探一站，再带着问题去上课</div></div>'+
       '<div class="tj-btn">出发 →</div></div>';
   } else {
@@ -677,7 +677,7 @@ function renderCosmos(){
     var tm=tagInfo(k.tag);
     var open=(k.type==="c")
       ? "openLesson('chinese',"+k.ui+","+k.li+")"
-      : "window.open('math-adventure/index.html#/u/"+k.id+"','_blank')";
+      : "openMath("+k.id+")";
     var doneB=k.done?'<div class="k-done">✦ 探索过</div>':'';
     return '<div class="k-card'+(k.done?" done":"")+'" onclick="'+open+'">'+
       '<div class="k-ic">'+tm.icon+'</div>'+
@@ -721,6 +721,11 @@ function renderUnitList(ui){
 }
 
 /* ======== 预习卡（六幕） ======== */
+/* 数学单元按 id 打开（在工作台内直接展开，不依赖外部文件） */
+function openMath(id){
+  var i=-1; for(var k=0;k<MATH_UNITS.length;k++){ if(MATH_UNITS[k].id===id){ i=k; break; } }
+  if(i>=0) openLesson('math',i,0);
+}
 function openLesson(subj,ui,li){
   CUR.subj=subj; CUR.unit=ui; CUR.lesson=li;
   var S=SUBJECTS[subj];
@@ -790,7 +795,7 @@ function renderMathCard(u){
   var done=store.has("m:"+u.id);
   app(
   '<div class="pre-wrap">'+
-    '<div class="back-row"><button class="back-btn" onclick="go(\'cosmos\')">← 返回星域</button><span style="font-size:12px;color:var(--ink3)">数学 · 北师大版 · 四年级上册</span></div>'+
+    '<div class="back-row"><button class="back-btn" onclick="go(\'cosmos\')">← 返回星域</button><span style="font-size:12px;color:var(--ink3)">数学 · 北师大版'+(SITE&&SITE.grade?' · '+esc(SITE.grade):'')+'</span></div>'+
     '<div class="pre-head" style="background:linear-gradient(150deg,#0E3A33,#1F5A4E)">'+
       '<div class="ph1">数学 · '+esc(u.no)+'</div>'+
       '<div class="ph2">'+esc(u.title)+'</div>'+
@@ -801,6 +806,7 @@ function renderMathCard(u){
     '<div class="act" id="q-'+u.id+'"><div class="act-tag"><span class="dot"></span>想想看</div><h4>'+esc(u.quiz.q)+'</h4>'+quizHtml(u.quiz,"q"+u.id)+'</div>'+
     '<div class="act"><div class="act-tag"><span class="dot"></span>上课时</div><p>'+esc(u.task)+'</p></div>'+
     '<div class="act"><div class="act-tag"><span class="dot"></span>还想深入</div>'+resHtml(res)+'</div>'+
+    '<div class="act" style="text-align:center"><span class="res-go" onclick="window.open(\'math-adventure/index.html#/u/'+u.id+'\',\'_blank\')">🗺 看这一单元的完整探险地图 →</span><div class="muted" style="margin-top:8px">可选 · 需要学习台同目录下的 math-adventure 文件夹</div></div>'+
   '</div>');
   store.add("m:"+u.id);
 }
