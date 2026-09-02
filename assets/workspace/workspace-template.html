@@ -306,6 +306,22 @@
   body.theme-comic .galaxy .engine .en{color:#5A3220;}
   body.theme-comic .pre-head{background:linear-gradient(150deg,#FF9F6E,#FF6B6B)!important;}
   body.theme-comic .nav-item:hover{background:var(--chip);}
+
+  /* 我的书 · 清新绿（VI：绿 + 黑 + 白，取自《用好AI》封面） */
+  body.theme-book{
+    --bg:#F1FAF5; --card:#FFFFFF; --bar:rgba(241,250,245,.96); --side:#F6FCF9;
+    --ink:#16231D; --ink2:#4C5F57; --ink3:#8AA79A; --line:#D5EAE0;
+    --navy:#0E9E68; --navy2:#0B7E53; --gold:#15B87D; --gold2:#D6F3E7;
+    --orange:#0E9E68; --teal:#12A06C; --red:#E2483B; --moss:#3FA06B;
+    --chip:#E6F5EE; --onnavy:#F2FBF7; --radius:14px;
+    --shadow:0 2px 14px rgba(20,120,80,.12);
+  }
+  body.theme-book .page-title{font-weight:900;letter-spacing:.5px;}
+  body.theme-book .pre-head{background:linear-gradient(150deg,#0E9E68,#13B87D)!important;}
+  body.theme-book .pre-head .ph1,body.theme-book .pre-head .ph3{color:#DAF4E8;}
+  body.theme-book .sky-card{background:linear-gradient(160deg,#123A2C,#0C2A20);}
+  body.theme-book .nav-item:hover{background:var(--chip);}
+  body.theme-book .unit-card:hover,body.theme-book .k-card:hover,body.theme-book .engine:hover{border-color:var(--gold);}
   /* 主题切换器 */
   .theme-wrap{position:relative;}
   .theme-btn{width:38px;height:38px;border-radius:10px;border:1px solid var(--line);background:var(--card);cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
@@ -340,6 +356,7 @@
       <div class="theme-opt" data-t="tech" onclick="applyTheme('tech',event)"><span class="sw" style="background:#0C1B28"></span><span>🚀 科技 · 数学的探险</span></div>
       <div class="theme-opt" data-t="cosmos" onclick="applyTheme('cosmos',event)"><span class="sw" style="background:#0B1026"></span><span>🌌 宇宙 · 无边的星空</span></div>
       <div class="theme-opt" data-t="comic" onclick="applyTheme('comic',event)"><span class="sw" style="background:#FFF6E8"></span><span>🎨 漫画 · 明快的色彩</span></div>
+      <div class="theme-opt" data-t="book" onclick="applyTheme('book',event)"><span class="sw" style="background:#15B87D"></span><span>📗 我的书 · 清新绿</span></div>
     </div>
   </div>
   <div class="kid-chip" id="kidChip"><div class="kid-ava" id="kidAva">木</div><b id="kidName">木木</b></div>
