@@ -33,6 +33,7 @@ description: 生成小学语文/数学"相关性预习"材料、孩子的自学�
 - `assets/workspace/workspace-template.html` — 工作台模板（含 `SITE`、语文/数学数据占位符）
 - `assets/workspace/site-example.json` — 站点配置示例（孩子名字/兴趣/问题/作品/是否接 Get 笔记）
 - `assets/workspace/data/` — 四年级样例预习数据（语文 27 课、数学 11 单元+资源），也是数据格式的参照
+- `assets/workspace/data/connections.json` — **知识点联结**（预设的跨学科关联），驱动首页「我的知识网络」：孩子探索到相关的两课，网络里这条线才亮起
 - `scripts/build-workspace.mjs` — 构建脚本
 
 ### 数据格式（必须与样例一致，否则构建失败或渲染错乱）
@@ -40,6 +41,7 @@ description: 生成小学语文/数学"相关性预习"材料、孩子的自学�
 - 语文：`[{no, theme, lessons:[{no, title, hook, story, quiz, connect, task, parent, res}]}]`
 - 数学：`[{id, no, title, sub, time, hook, story, quiz, task, parent}]` + 资源 `[{id, t, n, d, u}]`
 - `hook`=好奇钩子（孩子看到的问题）；`story`=背后故事；`quiz`=想一想；`task`=上课任务；`res`=资源（`u`=可点击链接）
+- 联结：`[{a, b, why}]`。`a`/`b` 是知识点键——语文 `c:<单元下标>:<课文下标>`、数学 `m:<单元id>`；`why` 是"这两个为什么相通"的一句孩子能懂的话。**每个年级都要配一份**，优先写跨学科的（语文课 ↔ 数学单元），这是"相关性预习"最核心的产出；只写真实存在的关联，不硬凑。
 
 ### 构建步骤
 

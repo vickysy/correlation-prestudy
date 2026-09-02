@@ -85,6 +85,9 @@ if (!chinesePath || !mathPath || !mathresPath) {
 const chinese = readFileSync(chinesePath, "utf8");
 const math = readFileSync(mathPath, "utf8");
 const mathres = readFileSync(mathresPath, "utf8");
+// 知识点联结（预设的跨学科关联）：驱动首页「我的知识网络」。缺失则为空网络
+const connPath = pick("--connections", join(WS_ASSETS, "data", "connections.json"));
+const conn = connPath ? readFileSync(connPath, "utf8") : "[]";
 
 // ---------- 模板 ----------
 const tplPath = pick("--template", join(WS_ASSETS, "workspace-template.html"));
@@ -97,11 +100,12 @@ let out = tpl
   .replace("__SITE_NAME__", site.name)
   .replace("/*__CHINESE__*/", chinese)
   .replace("/*__MATH_UNITS__*/", math)
-  .replace("/*__MATH_RES__*/", mathres);
+  .replace("/*__MATH_RES__*/", mathres)
+  .replace("/*__CONNECTIONS__*/", conn);
 
 for (const [marker, label] of [
   ["/*__SITE__*/", "SITE"], ["__SITE_NAME__", "名字"],
-  ["/*__CHINESE__*/", "语文"], ["/*__MATH_UNITS__*/", "数学"], ["/*__MATH_RES__*/", "数学资源"]
+  ["/*__CHINESE__*/", "语文"], ["/*__MATH_UNITS__*/", "数学"], ["/*__MATH_RES__*/", "数学资源"], ["/*__CONNECTIONS__*/", "联结"]
 ]) {
   if (out.includes(marker)) { console.error("占位符未替换: " + label); process.exit(1); }
 }

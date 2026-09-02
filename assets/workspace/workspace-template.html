@@ -132,6 +132,14 @@
   .sky-count b{color:#FFD166;}
   .sky-svg{max-width:560px;margin:6px auto 0;}
   .sky-hint{font-size:10.5px;color:#7E9FB3;text-align:center;line-height:1.7;padding:4px 8px;}
+  .sky-empty{color:#AFC4CD;font-size:13px;line-height:1.9;text-align:center;padding:28px 18px;}
+  .net-links{margin-top:10px;border-top:1px solid rgba(255,255,255,.12);padding-top:12px;}
+  .nl-title{font-size:12px;font-weight:700;color:#FFD166;letter-spacing:.5px;margin-bottom:8px;}
+  .nl-item{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:10px;padding:9px 13px;margin-bottom:7px;}
+  .nl-item b{color:#FFF3D6;font-size:12.5px;}
+  .nl-x{color:#FFC531;margin:0 6px;}
+  .nl-why{color:#AFC4CD;font-size:11.5px;line-height:1.65;margin-top:4px;}
+  .nl-empty{color:#7E9FB3;font-size:11.5px;text-align:center;padding:6px;}
   /* ===== 知识宇宙 ===== */
   .subj-row{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px;}
   .pill{border:1px solid var(--line);background:var(--card);padding:8px 18px;border-radius:999px;font-size:13px;color:var(--ink2);cursor:pointer;font-family:inherit;}
@@ -361,6 +369,7 @@ var SITE = /*__SITE__*/;
 var CHINESE_UNITS = /*__CHINESE__*/;
 var MATH_UNITS = /*__MATH_UNITS__*/;
 var MATH_RES = /*__MATH_RES__*/;
+var CONNECTIONS = /*__CONNECTIONS__*/;
 
 /* ======== 站点配置应用（孩子名字/年级） ======== */
 function applySite(){
@@ -457,7 +466,7 @@ function app(h){ document.getElementById("app").innerHTML=h; }
 function renderHome(){
   var ex=allExplored();
   var lit=ex.length;
-  var links=Math.max(0,Math.floor(lit*0.6));
+  var nLinks=litConnections().length;
   var nj=nextJourney();
   var journey;
   if(nj&&nj.type==="chinese"){
@@ -485,11 +494,14 @@ function renderHome(){
   journey+
   '<section class="sky-card">'+
     '<div class="sky-head">'+
-      '<div class="sky-title"><span class="star">✦</span> 我的星空</div>'+
-      '<div class="sky-count">已点亮 <b>'+lit+'</b> 颗星 · 连出 <b>'+links+'</b> 条线</div>'+
+      '<div class="sky-title"><span class="star">✦</span> 我的知识网络</div>'+
+      '<div class="sky-count"><b>'+lit+'</b> 个知识点 · <b>'+nLinks+'</b> 条联结</div>'+
     '</div>'+
-    '<div class="sky-svg"><svg id="galaxySvg" viewBox="0 0 660 450" style="width:100%;height:auto;display:block;"></svg></div>'+
-    '<div class="sky-hint">每探索一课，这里就亮一颗 —— 点亮的都是你自己长的本事</div>'+
+    (lit===0
+      ? '<div class="sky-empty">你的知识网络还是空的。<br>去「知识宇宙」探索第一课，回来这里就会长出第一个点——再探索和它相关的一课，点和点之间会亮起一条线。</div>'
+      : '<div class="sky-svg"><svg id="netSvg" viewBox="0 0 660 450" style="width:100%;height:auto;display:block;"></svg></div>'+
+        '<div class="net-links" id="netLinks"></div>')+
+    '<div class="sky-hint">一条线 = 两个知识点其实是相通的。它不是奖励，是你自己看见的联结。</div>'+
   '</section>'+
   '<section class="modules wrap">'+
     '<h2 class="sec-title">我的房间</h2>'+
@@ -501,10 +513,57 @@ function renderHome(){
       '<div class="engine" onclick="go(\'works\')"><div class="ei">🚀</div><span class="en">我的作品</span><div class="ed">先做作品，再学概念</div></div>'+
     '</div>'+
   '</section>'+
-  '<div class="foot">没有积分、没有奖励——点亮一颗星，就是你自己长的本事。</div>');
-  renderGalaxy();
+  '<div class="foot">没有积分、没有奖励——每一条联结，都是你自己看见的。</div>');
+  if(lit>0){ renderNetwork(); renderNetLinks(); }
 }
-/* ======== 动态星图 ======== */
+/* ======== 知识联结网络：节点=知识点，边=预设的跨学科关联；探索到相关两点，线才亮 ======== */
+function nodeName(key){ var n=starName(key)||""; return n.replace(/（[^）]*）/g,"").replace(/\([^)]*\)/g,"").trim(); }
+function shortName(s){ s=String(s||""); return s.length>6 ? s.slice(0,6)+"…" : s; }
+function litConnections(){
+  var ex=allExplored(), s={}; ex.forEach(function(k){ s[k]=1; });
+  return (CONNECTIONS||[]).filter(function(c){ return s[c.a] && s[c.b]; });
+}
+function renderNetwork(){
+  var svg=document.getElementById("netSvg"); if(!svg) return;
+  var ex=allExplored(), exSet={}; ex.forEach(function(k){ exSet[k]=1; });
+  // 可见节点 = 已探索的 + 与之相关但还没探索的（作为“下一步”的邀请）
+  var vis={}; ex.forEach(function(k){ vis[k]=1; });
+  (CONNECTIONS||[]).forEach(function(c){ if(exSet[c.a]) vis[c.b]=1; if(exSet[c.b]) vis[c.a]=1; });
+  var nodes=Object.keys(vis);
+  var cx=330, cy=215, R=nodes.length<=1?0:150, pos={};
+  nodes.forEach(function(k,i){ var a=-Math.PI/2 + i*2*Math.PI/nodes.length; pos[k]={x:cx+R*Math.cos(a), y:cy+R*Math.sin(a)}; });
+  if(nodes.length===1) pos[nodes[0]]={x:cx,y:cy};
+  var h="";
+  // 边：两端都探索过 → 金色实线（联结成立）；只探索一端 → 灰色虚线（邀请去探索另一端）
+  (CONNECTIONS||[]).forEach(function(c){
+    if(!vis[c.a]||!vis[c.b]) return;
+    var lit=exSet[c.a]&&exSet[c.b], pa=pos[c.a], pb=pos[c.b];
+    h+='<line x1="'+pa.x.toFixed(1)+'" y1="'+pa.y.toFixed(1)+'" x2="'+pb.x.toFixed(1)+'" y2="'+pb.y.toFixed(1)+'" stroke="'+(lit?"#FFC531":"#5C8096")+'" stroke-width="'+(lit?2:1)+'" stroke-dasharray="'+(lit?"none":"4 5")+'" opacity="'+(lit?".9":".35")+'"/>';
+  });
+  nodes.forEach(function(k){
+    var p=pos[k], on=exSet[k], nm=shortName(nodeName(k));
+    if(on){
+      h+='<circle cx="'+p.x.toFixed(1)+'" cy="'+p.y.toFixed(1)+'" r="9" fill="#FFD166" stroke="#F6E7C8" stroke-width="1.5"/>';
+    } else {
+      h+='<circle cx="'+p.x.toFixed(1)+'" cy="'+p.y.toFixed(1)+'" r="8" fill="#17394F" stroke="#5C8096" stroke-width="1" stroke-dasharray="3 3"/>'
+        +'<text x="'+p.x.toFixed(1)+'" y="'+(p.y+3.5).toFixed(1)+'" text-anchor="middle" fill="#8FB0C0" font-size="10" font-weight="700">?</text>';
+    }
+    var ly = p.y>=cy ? p.y+20 : p.y-13;
+    h+='<text x="'+p.x.toFixed(1)+'" y="'+ly.toFixed(1)+'" text-anchor="middle" fill="'+(on?"#FFF3D6":"#7E9FB3")+'" font-size="10.5">'+esc(nm)+'</text>';
+  });
+  svg.innerHTML=h;
+}
+function renderNetLinks(){
+  var box=document.getElementById("netLinks"); if(!box) return;
+  var lc=litConnections();
+  if(!lc.length){ box.innerHTML='<div class="nl-empty">再探索一课和它相关的知识点，这里就会出现你的第一条「联结」。</div>'; return; }
+  var h='<div class="nl-title">✦ 你看见的联结</div>';
+  lc.forEach(function(c){
+    h+='<div class="nl-item"><b>'+esc(nodeName(c.a))+'</b><span class="nl-x">↔</span><b>'+esc(nodeName(c.b))+'</b><div class="nl-why">'+esc(c.why||"")+'</div></div>';
+  });
+  box.innerHTML=h;
+}
+/* ======== 动态星图（旧版，已不再调用） ======== */
 function starName(key){
   if(key.indexOf("c:")===0){
     var p=key.slice(2).split(":");
