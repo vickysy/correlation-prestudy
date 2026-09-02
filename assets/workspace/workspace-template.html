@@ -219,18 +219,31 @@
   .q{background:var(--card);border:1px solid var(--line);border-radius:999px;padding:7px 13px;font-size:11.5px;color:var(--ink2);}
   .q.hot{background:var(--gold2);border-color:var(--gold);color:#7a5210;}
   .q.new{border-style:dashed;border-color:var(--navy2);color:var(--navy2);background:#F4F8FA;}
-  /* ===== AI ===== */
-  .p-card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:15px;position:relative;}
-  .p-card .pt{font-weight:700;font-size:13px;display:flex;align-items:center;gap:7px;}
-  .p-card .pw{font-size:11px;color:var(--ink2);margin-top:6px;line-height:1.7;}
-  .p-card .copy{position:absolute;top:13px;right:13px;background:var(--navy);color:var(--onnavy);font-size:10.5px;padding:4px 11px;border-radius:7px;border:none;cursor:pointer;font-weight:600;font-family:inherit;}
+  /* ===== AI 协作者（重设计：大字、清爽、图标底托） ===== */
+  .ai-page .page-title{font-family:var(--serif);font-size:26px;letter-spacing:1px;margin-bottom:6px;}
+  .ai-page .page-sub{font-size:15px;line-height:1.8;max-width:56em;margin-bottom:22px;}
+  .ai-page .grid{gap:18px;}
+  .ai-page .grid .p-card{flex:1 1 300px;}
+  .p-card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:22px 22px 20px;position:relative;box-shadow:var(--shadow);display:flex;flex-direction:column;transition:.15s;}
+  .p-card:hover{border-color:var(--gold);transform:translateY(-2px);}
+  .p-card .p-body{flex:1;margin-bottom:16px;}
+  .p-card .p-ic{width:44px;height:44px;border-radius:13px;background:var(--chip);display:flex;align-items:center;justify-content:center;font-size:22px;margin-bottom:12px;}
+  .p-card .pt{font-family:var(--serif);font-weight:700;font-size:18px;color:var(--ink);letter-spacing:.3px;line-height:1.35;}
+  .p-card .pw{font-size:14px;color:var(--ink2);margin-top:8px;line-height:1.75;}
+  .p-card .copy{position:absolute;top:13px;right:13px;background:var(--navy);color:var(--onnavy);font-size:11px;padding:4px 11px;border-radius:7px;border:none;cursor:pointer;font-weight:600;font-family:inherit;}
   .p-card .copy.done{background:#52A85A;}
-  .hint{display:inline-block;font-size:10px;color:var(--ink3);margin-top:6px;background:var(--chip);padding:2px 8px;border-radius:99px;}
-  .fill-btn{margin-top:11px;border:1.5px solid var(--navy);background:transparent;color:var(--navy);font-size:11px;font-weight:700;padding:6px 13px;border-radius:8px;cursor:pointer;font-family:inherit;}
+  .hint{display:inline-block;font-size:12px;color:var(--ink3);margin-top:10px;background:var(--chip);padding:4px 11px;border-radius:99px;line-height:1.5;}
+  .fill-btn{border:1.5px solid var(--navy);background:transparent;color:var(--navy);font-size:14px;font-weight:700;padding:10px 18px;border-radius:10px;cursor:pointer;font-family:inherit;align-self:flex-start;transition:.15s;}
   .fill-btn:hover{background:var(--navy);color:var(--onnavy);}
+  .fill-form{margin-top:14px;border-top:1px dashed var(--line);padding-top:14px;}
+  .f-row{margin-bottom:11px;}
+  .f-label{font-size:13px;color:var(--ink3);display:block;margin-bottom:5px;}
+  .f-in{width:100%;border:1px solid var(--line);background:var(--bg);border-radius:9px;padding:10px 12px;font-size:14px;font-family:inherit;color:var(--ink);}
   .f-in:focus{outline:none;border-color:var(--gold);}
-  .gen-btn{margin-top:10px;border:none;background:var(--navy);color:var(--onnavy);font-size:11.5px;font-weight:700;padding:8px 15px;border-radius:8px;cursor:pointer;font-family:inherit;}
+  .gen-btn{margin-top:6px;border:none;background:var(--navy);color:var(--onnavy);font-size:14px;font-weight:700;padding:10px 18px;border-radius:10px;cursor:pointer;font-family:inherit;}
   .gen-btn:hover{background:var(--navy2);}
+  .gen-out{display:none;width:100%;height:96px;margin-top:11px;border:1px dashed var(--gold);border-radius:10px;background:var(--bg);padding:11px;font-size:13.5px;line-height:1.7;color:var(--ink);font-family:inherit;resize:vertical;}
+  .ai-foot{margin-top:22px;text-align:center;font-size:13.5px;color:var(--ink3);line-height:1.8;}
   .import-box,.log-box{background:var(--card);border:1px dashed var(--gold);border-radius:11px;padding:13px 15px;margin-bottom:10px;}
   .import-box textarea{width:100%;height:78px;border:1px solid var(--line);border-radius:9px;background:var(--bg);padding:10px;font-size:12px;line-height:1.7;font-family:inherit;color:var(--ink);resize:vertical;}
   .import-box textarea:focus,.log-box input:focus{outline:none;border-color:var(--gold);}
@@ -309,15 +322,15 @@
 
   /* 我的书 · 清新绿（VI：绿 + 黑 + 白，取自《用好AI》封面） */
   body.theme-book{
-    --bg:#F1FAF5; --card:#FFFFFF; --bar:rgba(241,250,245,.96); --side:#F6FCF9;
-    --ink:#16231D; --ink2:#4C5F57; --ink3:#8AA79A; --line:#D5EAE0;
-    --navy:#0E9E68; --navy2:#0B7E53; --gold:#15B87D; --gold2:#D6F3E7;
-    --orange:#0E9E68; --teal:#12A06C; --red:#E2483B; --moss:#3FA06B;
-    --chip:#E6F5EE; --onnavy:#F2FBF7; --radius:14px;
-    --shadow:0 2px 14px rgba(20,120,80,.12);
+    --bg:#F3F7F4; --card:#FFFFFF; --bar:rgba(243,247,244,.96); --side:#F7FAF8;
+    --ink:#17261F; --ink2:#3F5A4E; --ink3:#6E8A7C; --line:#D6E3DB;
+    --navy:#1B6B4C; --navy2:#145238; --gold:#1E8F66; --gold2:#DCEFE5;
+    --orange:#1B6B4C; --teal:#1E8F66; --red:#C9463A; --moss:#4E8A66;
+    --chip:#E8F1EC; --onnavy:#F1F8F4; --radius:14px;
+    --shadow:0 2px 12px rgba(20,80,55,.10);
   }
   body.theme-book .page-title{font-weight:900;letter-spacing:.5px;}
-  body.theme-book .pre-head{background:linear-gradient(150deg,#0E9E68,#13B87D)!important;}
+  body.theme-book .pre-head{background:linear-gradient(150deg,#1B6B4C,#2A8F68)!important;}
   body.theme-book .pre-head .ph1,body.theme-book .pre-head .ph3{color:#DAF4E8;}
   body.theme-book .sky-card{background:linear-gradient(160deg,#123A2C,#0C2A20);}
   body.theme-book .nav-item:hover{background:var(--chip);}
@@ -356,7 +369,7 @@
       <div class="theme-opt" data-t="tech" onclick="applyTheme('tech',event)"><span class="sw" style="background:#0C1B28"></span><span>🚀 科技 · 数学的探险</span></div>
       <div class="theme-opt" data-t="cosmos" onclick="applyTheme('cosmos',event)"><span class="sw" style="background:#0B1026"></span><span>🌌 宇宙 · 无边的星空</span></div>
       <div class="theme-opt" data-t="comic" onclick="applyTheme('comic',event)"><span class="sw" style="background:#FFF6E8"></span><span>🎨 漫画 · 明快的色彩</span></div>
-      <div class="theme-opt" data-t="book" onclick="applyTheme('book',event)"><span class="sw" style="background:#15B87D"></span><span>📗 我的书 · 清新绿</span></div>
+      <div class="theme-opt" data-t="book" onclick="applyTheme('book',event)"><span class="sw" style="background:#1E8F66"></span><span>📗 我的书 · 清新绿</span></div>
     </div>
   </div>
   <div class="kid-chip" id="kidChip"><div class="kid-ava" id="kidAva">木</div><b id="kidName">木木</b></div>
@@ -1136,25 +1149,31 @@ var AI_FORMULAS=[
 function renderAI(){
   var grid=AI_FORMULAS.map(function(f,i){
     var fs=f.fields.map(function(fd,j){
-      return '<div style="margin-bottom:7px;"><label style="font-size:10.5px;color:var(--ink3);display:block;margin-bottom:3px;">'+esc(fd[0])+'</label>'+
-        '<input class="f-in" data-card="'+i+'" data-i="'+j+'" value="'+esc(fd[1])+'" style="width:100%;border:1px solid var(--line);background:var(--bg);border-radius:8px;padding:7px 10px;font-size:12px;font-family:inherit;color:var(--ink);"/></div>';
+      return '<div class="f-row"><label class="f-label">'+esc(fd[0])+'</label>'+
+        '<input class="f-in" data-card="'+i+'" data-i="'+j+'" value="'+esc(fd[1])+'"/></div>';
     }).join("");
     return '<div class="card p-card">'+
-      '<div class="pt">'+f.ic+' '+f.t+'</div>'+
-      '<div class="pw">'+f.d+'<br><span class="hint">'+f.hint+'</span></div>'+
+      '<div class="p-body">'+
+        '<div class="p-ic">'+f.ic+'</div>'+
+        '<div class="pt">'+esc(f.t)+'</div>'+
+        '<div class="pw">'+esc(f.d)+'</div>'+
+        '<span class="hint">'+esc(f.hint)+'</span>'+
+      '</div>'+
       '<button class="fill-btn" onclick="toggleForm('+i+')">▶ 填一填</button>'+
-      '<div class="fill-form" id="ff'+i+'" style="display:none;margin-top:12px;border-top:1px dashed var(--line);padding-top:12px;">'+
+      '<div class="fill-form" id="ff'+i+'" style="display:none">'+
         fs+
         '<button class="gen-btn" onclick="genPrompt('+i+',this)">生成提示词并复制</button>'+
-        '<textarea class="gen-out" id="go'+i+'" readonly style="display:none;width:100%;height:78px;margin-top:9px;border:1px dashed var(--gold);border-radius:9px;background:var(--bg);padding:9px;font-size:11.5px;line-height:1.6;color:var(--ink);font-family:inherit;"></textarea>'+
+        '<textarea class="gen-out" id="go'+i+'" readonly></textarea>'+
       '</div>'+
     '</div>';
   }).join("");
   app(
-  '<div class="page-title">🤖 AI 协作者</div>'+
+  '<div class="ai-page">'+
+  '<div class="page-title">AI 协作者</div>'+
   '<div class="page-sub">十个万能公式，覆盖预习、做题、写作、数学、复盘、思辨…… <b>它只追问，不抢答</b>。点「填一填」，填空就能生成提示词。</div>'+
   '<div class="grid">'+grid+'</div>'+
-  '<div class="muted" style="margin-top:16px;text-align:center">提示词是「思维教练」的启动器——AI 是你的思考陪练，不是答案机器。</div>');
+  '<div class="ai-foot">提示词是「思维教练」的启动器——AI 是你的思考陪练，不是答案机器。</div>'+
+  '</div>');
 }
 window.toggleForm=function(i){
   var f=document.getElementById("ff"+i);
